@@ -1,3 +1,12 @@
+/*Some crucial assumptions
+There are always enough batsmen and bowlers present as per the requirements.
+There are only two best batsmen or bowlers in a team(i.e no 3 best players).
+
+*/
+
+
+
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
@@ -155,18 +164,34 @@ void playing_eleven(struct team x)
 {   
     struct team sorted_team_batting=x;
     struct team sorted_team_bowling=x;
+    int selected[10];
     //struct team final_eleven;
     int i=0,j=0;
 
     quickSortStructureBat(sorted_team_batting.all_players,0,15);
     quickSortStructureBowl(sorted_team_bowling.all_players,0,15);
 
-    while(j<4)
+    while(i<2)
     {
         printf("%d",sorted_team_batting.all_players[i].player_id);
+        selected[j]=sorted_team_batting.all_players[i].player_id;
+        j++;
         printf("%d",sorted_team_bowling.all_players[i].player_id);
+        selected[j]=sorted_team_bowling.all_players[i].player_id;
+        j++;
         i++;
     }
+
+    for ( i = 0; i < 15; i++)
+    {
+        if(x.all_players[i].player_role[1]=='a')
+        {
+            
+        }
+    }
+    
+
+
 
 
 
