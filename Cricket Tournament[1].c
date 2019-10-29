@@ -49,6 +49,11 @@ struct match_played
 };
 
 
+void printPlayerStructure(struct team player)
+{
+    printf("");
+}
+
 
 void swapstructure(struct player* a, struct player* b) 
 { 
@@ -150,13 +155,18 @@ void playing_eleven(struct team x)
 {   
     struct team sorted_team_batting=x;
     struct team sorted_team_bowling=x;
-    struct team final_eleven;
-    int i=0;
+    //struct team final_eleven;
+    int i=0,j=0;
 
     quickSortStructureBat(sorted_team_batting.all_players,0,15);
     quickSortStructureBowl(sorted_team_bowling.all_players,0,15);
 
-    sorted_team_batting.all_players[i]=final_eleven.all_players[i];
+    while(j<4)
+    {
+        printf("%d",sorted_team_batting.all_players[i].player_id);
+        printf("%d",sorted_team_bowling.all_players[i].player_id);
+        i++;
+    }
 
 
 
