@@ -183,10 +183,10 @@ void playing_eleven(struct team x)
 
     while(i<2)
     {
-        printf("%d\n",sorted_team_batting.all_players[i].player_id);
+        //printf("%d\n",sorted_team_batting.all_players[i].player_id);
         selected[j]=sorted_team_batting.all_players[i].player_id;
         j++;
-        printf("%d\n",sorted_team_bowling.all_players[i].player_id);
+        //printf("%d\n",sorted_team_bowling.all_players[i].player_id);
         selected[j]=sorted_team_bowling.all_players[i].player_id;
         j++;
         i++;
@@ -224,7 +224,7 @@ void playing_eleven(struct team x)
         }
     }
     int batsmenSize=(sizeof(batsmen)/sizeof(batsmen[0]));
-    struct player* temp;
+    struct team temp;
     int batsmencombination[3][batsmenSize];
     
     l=0;
@@ -270,7 +270,27 @@ void playing_eleven(struct team x)
         batsmenandbowlerscombination[4][i]=bowlerscombination[1][i];
         i++;
     }
+  temp=x;
+  i=0;j=0;
+  while(i<5)
+  {
+      while(j<15)
+      if(temp.all_players[j].player_id==batsmenandbowlerscombination[i][0])
+      {
+          deletePlayer(temp.all_players,11,j);
+      }
+
+  }
+for ( i = 0; i < 5; i++)
+{
+    for (j = i+1; j < 6 ; j++)
+    {
+        
+    }
     
+}
+
+
     
 
 
