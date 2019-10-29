@@ -164,7 +164,7 @@ void playing_eleven(struct team x)
 }
 
 
-int min()
+int main()
 {
     
     return 0;
