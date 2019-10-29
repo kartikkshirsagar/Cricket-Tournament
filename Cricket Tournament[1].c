@@ -164,7 +164,10 @@ void playing_eleven(struct team x)
 {   
     struct team sorted_team_batting=x;
     struct team sorted_team_bowling=x;
-    int selected[10];
+    int selected[10];//This is array of those player ids who are the best (both batsmen ans bowlers)
+    struct player batsmen[10];
+    struct player bowlers[10];
+    struct player allRounders[10];
     //struct team final_eleven;
     int i=0,j=0;
 
@@ -173,22 +176,76 @@ void playing_eleven(struct team x)
 
     while(i<2)
     {
-        printf("%d",sorted_team_batting.all_players[i].player_id);
+        //printf("%d",sorted_team_batting.all_players[i].player_id);
         selected[j]=sorted_team_batting.all_players[i].player_id;
         j++;
-        printf("%d",sorted_team_bowling.all_players[i].player_id);
+        //printf("%d",sorted_team_bowling.all_players[i].player_id);
         selected[j]=sorted_team_bowling.all_players[i].player_id;
         j++;
         i++;
     }
-
     for ( i = 0; i < 15; i++)
+    {
+        if(x.all_players[i].player_id==selected[0]||x.all_players[i].player_id==selected[1]||x.all_players[i].player_id==selected[2]||x.all_players[i].player_id==selected[3])
+        {
+            j=i;
+            while(j<15)
+            {
+                x.all_players[i+1]=x.all_players[i];
+                j++;
+            }
+        }
+    }
+    
+    j=0;int k=0,l=0;
+    for ( i = 0; i < 11; i++)
     {
         if(x.all_players[i].player_role[1]=='a')
         {
-            
+            batsmen[j]=x.all_players[i];
+            j++;
+        }
+        if(x.all_players[i].player_role[1]=='o')
+        {
+            bowlers[k]=x.all_players[i];
+            k++;
+        }
+        else
+        {
+            allRounders[l]=x.all_players[i];
+            l++;
         }
     }
+    int batsmenSize=(sizeof(batsmen)/sizeof(batsmen[0]));
+    l=0;
+    for(i=0;i<batsmenSize-2;i++)        //i is less than n-r+1 = size-3+1=size-2
+    {
+        for(j= i+1;i < batsmenSize-1;j++)
+        {
+            for (k = j+1; i < batsmenSize; k++)
+            {
+                printf("%d",batsmen[i].player_id);
+                printf("%d",batsmen[j].player_id);
+                printf("%d",batsmen[k].player_id);
+                
+            }
+            
+        }
+
+    }
+
+    int bowlersSize=(sizeof(bowlers)/sizeof(bowlers[0]));
+
+    for ( i = 0; i < bowlersSize - 1; i++)
+    {
+        for ( j = i+1; i <bowlersSize ; j++)
+        {
+            printf("%d",bowlers[i].player_id);
+            printf("%d",bowlers[j].player_id);
+        }
+        
+    }
+    
     
 
 
