@@ -158,7 +158,14 @@ void quickSortStructureBowl(struct player arr[], int low, int high)
     } 
 } 
 
-
+void deletePlayer(struct player* a,int sz,int i)
+{
+    while(i<sz)
+    {
+        a[i]=a[i+1];
+        i++;
+    }
+}
 
 void playing_eleven(struct team x)
 {   
@@ -176,10 +183,10 @@ void playing_eleven(struct team x)
 
     while(i<2)
     {
-        //printf("%d",sorted_team_batting.all_players[i].player_id);
+        printf("%d\n",sorted_team_batting.all_players[i].player_id);
         selected[j]=sorted_team_batting.all_players[i].player_id;
         j++;
-        //printf("%d",sorted_team_bowling.all_players[i].player_id);
+        printf("%d\n",sorted_team_bowling.all_players[i].player_id);
         selected[j]=sorted_team_bowling.all_players[i].player_id;
         j++;
         i++;
@@ -191,7 +198,7 @@ void playing_eleven(struct team x)
             j=i;
             while(j<15)
             {
-                x.all_players[i+1]=x.all_players[i];
+                x.all_players[i]=x.all_players[i+1];
                 j++;
             }
         }
@@ -217,17 +224,21 @@ void playing_eleven(struct team x)
         }
     }
     int batsmenSize=(sizeof(batsmen)/sizeof(batsmen[0]));
+    struct player* temp;
+    int batsmencombination[3][batsmenSize];
+    
     l=0;
+    printf("Combinations among Batsmen are:\n");
     for(i=0;i<batsmenSize-2;i++)        //i is less than n-r+1 = size-3+1=size-2
     {
         for(j= i+1;i < batsmenSize-1;j++)
         {
             for (k = j+1; i < batsmenSize; k++)
             {
-                printf("%d",batsmen[i].player_id);
-                printf("%d",batsmen[j].player_id);
-                printf("%d",batsmen[k].player_id);
-                
+               batsmencombination[0][l]=batsmen[i].player_id;
+               batsmencombination[1][l]=batsmen[j].player_id;
+               batsmencombination[2][l]=batsmen[k].player_id;
+               l++;
             }
             
         }
@@ -235,15 +246,29 @@ void playing_eleven(struct team x)
     }
 
     int bowlersSize=(sizeof(bowlers)/sizeof(bowlers[0]));
-
+    int bowlerscombination[2][bowlersSize];
+    printf("Combinations among Bowlers are:\n");
+    l=0;
     for ( i = 0; i < bowlersSize - 1; i++)
     {
         for ( j = i+1; i <bowlersSize ; j++)
         {
-            printf("%d",bowlers[i].player_id);
-            printf("%d",bowlers[j].player_id);
+            bowlerscombination[0][l]=bowlers[i].player_id;
+            bowlerscombination[1][l]=bowlers[j].player_id;
+            l++;
         }
         
+    }
+    int batsmenandbowlerscombination[5][batsmenSize*bowlersSize];
+    i=0;
+    while(i<batsmenSize*bowlersSize)
+    {
+        batsmenandbowlerscombination[0][i]=batsmencombination[0][i];
+        batsmenandbowlerscombination[1][i]=batsmencombination[1][i];
+        batsmenandbowlerscombination[2][i]=batsmencombination[2][i];
+        batsmenandbowlerscombination[3][i]=bowlerscombination[0][i];
+        batsmenandbowlerscombination[4][i]=bowlerscombination[1][i];
+        i++;
     }
     
     
