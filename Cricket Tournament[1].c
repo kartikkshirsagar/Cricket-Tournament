@@ -25,16 +25,15 @@ struct player
     int present_match_score;
     int present_match_wicket;
     char player_role[10];
-    enum playing{out,notout};
+    enum {out,notout} playing;
 
-}p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15;
+};
 
 
 
 
 struct team
 {
-    /* data */
    struct player all_players[15];//array of structure
 
 }t1,t2,t3,t4,t5,t6,t7,t8;
@@ -50,7 +49,7 @@ struct match_played
     int highest_runs;
     struct player man_of_the_match;
     int wicket_taken_by_pacers;
-    enum match_result{win,NR,tie};
+    enum {win,NR,tie} match_result;
     struct team winning_team;
 
 
@@ -322,6 +321,22 @@ void playing_eleven(struct team x)
         }
         
     }
+}
+
+float calculate_average(struct team a,int sz){
+    float avg;int i;
+    if(a.all_players[i].playing==notout)
+    {
+        a.all_players[i].previous_avg = ;
+    }
+
+}
+struct player highest_average()
+{   
+    struct team all_teams[8]={t1,t2,t3,t4,t5,t6,t7,t8};
+    float avg;
+    avg = 
+    
 }
 
 
