@@ -259,7 +259,8 @@ void playing_eleven(struct team x)
         }
         
     }
-    int batsmenandbowlerscombination[5][batsmenSize*bowlersSize];
+    int size1=batsmenSize*bowlersSize;
+    int batsmenandbowlerscombination[5][size1];
     i=0;
     while(i<batsmenSize*bowlersSize)
     {
@@ -270,24 +271,57 @@ void playing_eleven(struct team x)
         batsmenandbowlerscombination[4][i]=bowlerscombination[1][i];
         i++;
     }
-  temp=x;
-  i=0;j=0;
-  while(i<5)
-  {
-      while(j<15)
-      if(temp.all_players[j].player_id==batsmenandbowlerscombination[i][0])
-      {
-          deletePlayer(temp.all_players,11,j);
-      }
 
-  }
-for ( i = 0; i < 5; i++)
-{
-    for (j = i+1; j < 6 ; j++)
-    {
+
+
+  int final_eleven[7][size1*15];  // 6C2 would be 15, so we know the size
+  
+  
+ int z;
+ for  (z = 0; i < size1*15; z++) 
+   {
+        temp=x;
+        i=0;j=0;
+        while(i<5)
+        {
+            while(j<15)
+            if(temp.all_players[j].player_id==batsmenandbowlerscombination[i][z])
+            {
+                deletePlayer(temp.all_players,11,j);
+                j++;
+            }
+            i++;
+
+        }
+        int last_size=(sizeof(temp.all_players)/sizeof(temp.all_players[0]));
+        int final_combination[2][last_size];
+        l=0;
+        for ( i = 0; i < 5; i++)
+        {
+            for (j = i+1; j < 6 ; j++)
+            {
+            final_combination[0][l] =temp.all_players[i].player_id;
+            final_combination[1][l]=temp.all_players[j].player_id;
+            l++;
+
+            }
+            
+        }
+        j=15*z;
+        while(j<j+15)
+        {
+            int y=0;
+            while(y<5)
+            {
+                final_eleven[y][j]=batsmenandbowlerscombination[y][z];
+                y++;
+            }
+            final_eleven[y+1][0]=final_combination[0][j-15*z];
+            final_eleven[y+2][0]=final_combination[1][j-15*z];
+            j++;
+        }
         
     }
-    
 }
 
 
@@ -298,7 +332,6 @@ for ( i = 0; i < 5; i++)
 
 
 
-}
 
 
 int main()
