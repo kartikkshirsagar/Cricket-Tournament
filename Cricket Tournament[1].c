@@ -230,9 +230,9 @@ void playing_eleven(struct team x)
     printf("Combinations among Batsmen are:\n");
     for(i=0;i<batsmenSize-2;i++)        //i is less than n-r+1 = size-3+1=size-2
     {
-        for(j= i+1;i < batsmenSize-1;j++)
+        for(j= i+1;j < batsmenSize-1;j++)
         {
-            for (k = j+1; i < batsmenSize; k++)
+            for (k = j+1; k < batsmenSize; k++)
             {
                batsmencombination[0][l]=batsmen[i].player_id;
                batsmencombination[1][l]=batsmen[j].player_id;
@@ -250,7 +250,7 @@ void playing_eleven(struct team x)
     l=0;
     for ( i = 0; i < bowlersSize - 1; i++)
     {
-        for ( j = i+1; i <bowlersSize ; j++)
+        for ( j = i+1; j <bowlersSize ; j++)
         {
             bowlerscombination[0][l]=bowlers[i].player_id;
             bowlerscombination[1][l]=bowlers[j].player_id;
@@ -349,7 +349,7 @@ struct player highest_average()
     float avg[120];
     for (i = 0; i < 8 ; i++)
     {
-        for (j = 0; i < 15 ; i++)
+        for (j = 0; j < 15 ; j++)
         {
             avg[k] = calculate_average(all_teams[i],j);
             k++;
