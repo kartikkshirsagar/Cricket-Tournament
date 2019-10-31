@@ -323,19 +323,41 @@ void playing_eleven(struct team x)
     }
 }
 
-float calculate_average(struct team a,int sz){
-    float avg;int i;
+float calculate_average(struct team a,int i){
+    float avg;
+    int number_of_outs = a.all_players[i].previous_total_score/a.all_players[i].previous_avg;
+    a.all_players[i].previous_total_score += a.all_players[i].present_match_score;
+    
     if(a.all_players[i].playing==notout)
     {
-        a.all_players[i].previous_avg = ;
+        a.all_players[i].previous_avg=a.all_players[i].previous_total_score/number_of_outs;
     }
+    else
+    {
+        a.all_players[i].previous_avg=a.all_players[i].previous_total_score/(number_of_outs +1);
+    }
+    return a.all_players[i].previous_avg;
+    
 
 }
 struct player highest_average()
-{   
+{  
+
     struct team all_teams[8]={t1,t2,t3,t4,t5,t6,t7,t8};
-    float avg;
-    avg = 
+    int i,j;
+    int k =0;
+    float avg[120];
+    for (i = 0; i < 8 ; i++)
+    {
+        for (j = 0; i < 15 ; i++)
+        {
+            avg[k] = calculate_average(all_teams[i],j);
+            k++;
+        }
+        
+    }
+    
+
     
 }
 
