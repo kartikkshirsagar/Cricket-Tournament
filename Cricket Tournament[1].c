@@ -337,9 +337,9 @@ float calculate_average(struct team a,int i){
         a.all_players[i].previous_avg=a.all_players[i].previous_total_score/(number_of_outs +1);
     }
     return a.all_players[i].previous_avg;
-    
-
 }
+
+
 struct player highest_average()
 {  
 
@@ -355,10 +355,7 @@ struct player highest_average()
             k++;
         }
         
-    }
-    
-
-    
+    }   
 }
 
 
