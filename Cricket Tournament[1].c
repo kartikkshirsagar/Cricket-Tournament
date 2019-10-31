@@ -355,7 +355,11 @@ struct player highest_average()
             k++;
         }
         
-    }   
+    }
+
+    //INSERT MAX ELEMENT IN ARRAY ALGO HERE
+    //RETURN THE PLAYER WHICH HAS MAX AVERAGE
+
 }
 
 
