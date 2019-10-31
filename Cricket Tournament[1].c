@@ -14,6 +14,7 @@ struct player
 {
     /* data */
     int player_id;
+    char player_name[40];
     int match_id;
     int previous_total_score;
     float previous_avg;
