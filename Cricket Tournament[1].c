@@ -550,10 +550,10 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
 
 }
 
-void print4largest(int pointsTable[][2], int hi,int lo) 
+void print4largest(int pointsTable[][2], int lo,int hi) 
 { 
 	int i, first, second; 
-	first = second=pointsTable[0][1]; 
+	first = second=pointsTable[lo][1]; 
 	for (i = lo; i < hi ; i ++) 
 	{ 
 		if (pointsTable[i][1] > first) 
