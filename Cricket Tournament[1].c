@@ -36,8 +36,10 @@ struct player
 struct team
 {
    struct player all_players[15];//array of structure
+   int team_id;
 
-};
+}t1,t2,t3,t4,t5,t6,t7,t8;
+
 
 
 
@@ -56,13 +58,6 @@ struct match_played
 
 
 };
-
-
-void printPlayerStructure(struct team player)
-{
-    printf("");
-}
-
 
 void swapstructure(struct player* a, struct player* b) 
 { 
@@ -418,7 +413,7 @@ float calculate_average(struct team a,int i){
 }
 
 
-struct player highest_average()
+struct player highest_average(int n)
 {  
 
     struct team all_teams[8]={t1,t2,t3,t4,t5,t6,t7,t8};
@@ -464,6 +459,87 @@ struct player highest_average()
 
 }
 
+void Init (struct team* a,int* pointsTable[],int sz1)
+{
+    for(int i=0;i<sz1;i++)
+    {
+        pointsTable[i][1]=0;
+        pointsTable[i][0]=a[i].team_id;
+    }
+}
+
+
+void beginTournament(struct team* teams_playing,int* pointsTable[],int sz,int groupsize)
+{
+    int i=0,j=0;int k;
+    int ans;
+    printf("Matches will be played now in Group 1");
+    for(i=0;i<groupsize-1;i++)
+    {
+        for (j = i+1; j < groupsize; j++)
+        {
+            printf("Match is being played between %d and %d\n",teams_playing[i].team_id,teams_playing[j].team_id);
+            printf("Who will win? Enter the id and type -1 for tie\n");
+            scanf("%d",&ans);
+            if(ans==-1)
+            {
+                for(k=0;k<2*groupsize;k++)
+                {   
+                    if(pointsTable[k][0]==teams_playing[i].team_id||pointsTable[k][0]==teams_playing[j].team_id)
+                    {
+                        pointsTable[k][1]++;
+                    }
+                }
+            }
+            else{
+                for(k=0;k<2*groupsize;k++)
+                {   
+                    if(pointsTable[k][0]=ans)
+                    {
+                        pointsTable[k][1]+=2;
+                    }
+                }
+            }
+        }
+        
+    }
+
+
+
+
+
+    printf("Matches will be played now in Group 2");
+    for(i=groupsize;i<2*groupsize-1;i++)
+    {
+        for (j = groupsize+1; j < 2*groupsize; j++)
+        {
+            printf("Match is being played between %d and %d\n",teams_playing[i].team_id,teams_playing[j].team_id);
+            printf("Who will win? Enter the id and type -1 for tie\n");
+            scanf("%d",&ans);
+            if(ans==-1)
+            {
+                for(k=0;k<2*groupsize;k++)
+                {   
+                    if(pointsTable[k][0]==teams_playing[i].team_id||pointsTable[k][0]==teams_playing[j].team_id)
+                    {
+                        pointsTable[k][1]++;
+                    }
+                }
+            }
+            else{
+                for(k=0;k<2*groupsize;k++)
+                {   
+                    if(pointsTable[k][0]=ans)
+                    {
+                        pointsTable[k][1]+=2;
+                    }
+                }
+            }
+        }
+        
+    }
+}
+
 
 
     
@@ -477,10 +553,21 @@ struct player highest_average()
 
 int main()
 {
-    int n;
+    int n,i;
+    int pointsTable[8][2];    
     printf("Enter the number of teams:\n");
     scanf("%d",&n);
+    struct team teams_playing[n];
+    int groupsize=n/2;
+    printf("Please Enter team ID's");
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d",&teams_playing[i].team_id);
+    }
+    void Init(teams_playing,pointsTable,n);
+    void beginTournament(teams_playing,pointsTable,n,groupsize);
 
+    
     return 0;
 }
 
