@@ -474,7 +474,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
     void print4largest(int pointsTable[][2],int groupsize);
     int i=0,j=0;int k;
     int ans;
-    printf("Matches will be played now in Group 1");
+    printf("Matches will be played now in Group 1\n");
     for(i=0;i<groupsize-1;i++)
     {
         for (j = i+1; j < groupsize; j++)
@@ -509,10 +509,10 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
 
 
 
-    printf("Matches will be played now in Group 2");
+    printf("Matches will be played now in Group 2\n");
     for(i=groupsize;i<2*groupsize-1;i++)
     {
-        for (j = groupsize+1; j < 2*groupsize; j++)
+        for (j = i+1; j < 2*groupsize; j++)
         {
             printf("Match is being played between %d and %d\n",teams_playing[i].team_id,teams_playing[j].team_id);
             printf("Who will win? Enter the id and type -1 for tie\n");
@@ -619,7 +619,7 @@ int main()
     scanf("%d",&n);
     struct team teams_playing[n];
     int groupsize=n/2;
-    printf("Please Enter team ID's");
+    printf("Please Enter team ID's\n");
     for (i = 0; i < n; i++)
     {
         scanf("%d",&teams_playing[i].team_id);
