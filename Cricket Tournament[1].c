@@ -724,7 +724,7 @@ int main()
     scanf("%d",&n);
     struct team teams_playing[n];
     int groupsize=n/2;
-    int total_matches=((n/2)*(n/2-1))/2 +3;
+    int total_matches=((n/2)*(n/2-1)) +3;
     struct match_played match[total_matches];
     printf("Please Enter team IDs\n");
     for (i = 0; i < n; i++)
