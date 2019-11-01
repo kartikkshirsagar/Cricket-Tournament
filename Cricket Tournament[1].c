@@ -538,7 +538,66 @@ void beginTournament(struct team* teams_playing,int* pointsTable[],int sz,int gr
         }
         
     }
+    print4largest(pointsTable,groupsize);
+
+ //SOrt teams playing array from 0 to groupsize-1 and groupsize to n-1
+ //then top 2 teams from each group would advance to the knock outs.  
+ /* Function to print the second largest element */
+
+
+
 }
+
+void print4largest(int* pointsTable[], int groupsize) 
+{ 
+	int i, first, second; 
+	first = second=pointsTable[0][1]; 
+	for (i = 0; i < groupsize ; i ++) 
+	{ 
+		if (pointsTable[i][1] > first) 
+		{ 
+			second = first; 
+			first = pointsTable[i][1]; 
+		} 
+
+		else if (pointsTable[i][1] > second && pointsTable[i][1] != first) 
+			second = pointsTable[i]; 
+	}  	
+    
+    for(i=0;i<2*groupsize;i++)
+    {
+        if(pointsTable[i][1]==first || pointsTable[i][1]==second)
+        {
+            printf("These teams will proceed to knock outs\n");
+
+            printf("%d",pointsTable[i][0]);
+        }
+    }
+
+
+    first = second=pointsTable[groupsize][1]; 
+	for (i = groupsize; i < 2*groupsize ; i ++) 
+	{ 
+		if (pointsTable[i][1] > first) 
+		{ 
+			second = first; 
+			first = pointsTable[i][1]; 
+		} 
+
+		else if (pointsTable[i][1] > second && pointsTable[i][1] != first) 
+			second = pointsTable[i]; 
+	}  	
+    
+    for(i=0;i<2*groupsize;i++)
+    {
+        if(pointsTable[i][1]==first || pointsTable[i][1]==second)
+        {
+            printf("These teams will proceed to knock outs\n");
+
+            printf("%d",pointsTable[i][0]);
+        }
+    }	 
+} 
 
 
 
