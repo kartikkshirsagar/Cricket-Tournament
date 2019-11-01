@@ -470,7 +470,8 @@ void Init (struct team* a,int* pointsTable[],int sz1)
 
 
 void beginTournament(struct team* teams_playing,int* pointsTable[],int sz,int groupsize)
-{
+{   
+    void print4largest(int* pointsTable[],int groupsize);
     int i=0,j=0;int k;
     int ans;
     printf("Matches will be played now in Group 1");
