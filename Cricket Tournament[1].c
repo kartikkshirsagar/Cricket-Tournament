@@ -459,7 +459,7 @@ struct player highest_average(int n)
 
 }
 
-void Init (struct team* a,int *pointsTable[],int sz1)
+void Init (struct team* a,int pointsTable[][2],int sz1)
 {
     for(int i=0;i<sz1;i++)
     {
