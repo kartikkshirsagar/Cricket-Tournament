@@ -609,7 +609,7 @@ void print4largest(int pointsTable[][2], int lo,int hi)
 void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playing,int n)
 {
     /* data */
-    int k,i,j,t=(n*(n-1))/2;
+    int k,i,j,t=((n/2)*((n/2)-1)) +3;
     printf("\n Enter the value of k(for man of the match):");
     scanf("%d",&k);
     int man_match[t][2];
