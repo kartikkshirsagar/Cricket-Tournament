@@ -624,8 +624,8 @@ int main()
     {
         scanf("%d",&teams_playing[i].team_id);
     }
-    void Init(teams_playing,pointsTable,n);
-    void beginTournament(teams_playing,pointsTable,n,groupsize);
+    Init(teams_playing,pointsTable,n);
+    beginTournament(teams_playing,pointsTable,n,groupsize);
 
     
     return 0;
