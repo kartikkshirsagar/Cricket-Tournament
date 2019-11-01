@@ -561,7 +561,7 @@ void print4largest(int* pointsTable[], int groupsize)
 		} 
 
 		else if (pointsTable[i][1] > second && pointsTable[i][1] != first) 
-			second = pointsTable[i]; 
+			second = pointsTable[i][1]; 
 	}  	
     
     for(i=0;i<2*groupsize;i++)
@@ -585,7 +585,7 @@ void print4largest(int* pointsTable[], int groupsize)
 		} 
 
 		else if (pointsTable[i][1] > second && pointsTable[i][1] != first) 
-			second = pointsTable[i]; 
+			second = pointsTable[i][1]; 
 	}  	
     
     for(i=0;i<2*groupsize;i++)
