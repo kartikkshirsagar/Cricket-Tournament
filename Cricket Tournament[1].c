@@ -14,6 +14,7 @@ struct player
 {
     /* data */
     int player_id;
+    char player_name[40];
     int match_id;
     int previous_total_score;
     float previous_avg;
@@ -36,7 +37,7 @@ struct team
 {
    struct player all_players[15];//array of structure
 
-}t1,t2,t3,t4,t5,t6,t7,t8;
+};
 
 
 
@@ -323,6 +324,99 @@ void playing_eleven(struct team x)
     }
 }
 
+
+
+
+
+
+
+
+//Highest individual run 
+void mergeself(struct player A[],int l,int m,int n,struct player C[])
+{
+	int i=l,j=m+1,k=l;
+	while(i<=m && j<=n)
+	{
+		if(A[i].player_name<A[j].player_name)
+			C[k++]=A[i++];
+		else
+			C[k++]=A[j++];
+	}
+	
+	if(i<=m)
+		while(i<=m)C[k++]=A[i++];
+	else
+		while(j<=n)C[k++]=A[j++];
+	
+	for(i=l;i<=n;++i)
+		A[i]=C[i];
+	
+	
+}
+
+void Mergesort(struct player A[],int low,int high,struct player C[])
+{
+	
+	int i;
+	int mid;
+	if(low<high)
+	{
+		mid=(low+high)/2;
+		Mergesort(A,low,mid,C);
+		Mergesort(A,mid+1,high,C);
+		mergeself(A,low,mid,high,C);
+	}
+}
+
+
+void highest_run(struct team t[])
+{
+
+	
+	int i,j,k=0;struct player a[120],c[120];				//a[] to store required players
+	int max=t[0].all_players[0].previous_total_score+t[0].all_players[0].present_match_score;
+	
+	
+	for(i=0;i<8;++i)
+	{
+		int runs=t[i].all_players[i].previous_total_score+t[i].all_players[i].present_match_score;
+		for(j=0;j<15;++j)
+		{
+			if(runs>=max)
+			{
+				if(runs==max)
+				{
+					a[k]=t[i].all_players[j];
+					k++;
+				}
+				else {
+					k=0;
+					max=runs;
+					a[k]=t[i].all_players[j];
+					k++;
+				}
+			}
+		}
+	}
+	
+	Mergesort(a,0,k,c);
+	for(i=0;i<k;++i)
+	{
+		printf("Name= %s  Runs= %d\n",a[i].player_name,a[i].previous_total_score+a[i].present_match_score);
+	}	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
 float calculate_average(struct team a,int i){
     float avg;
     int number_of_outs = a.all_players[i].previous_total_score/a.all_players[i].previous_avg;
@@ -344,7 +438,8 @@ struct player highest_average()
 {  
 
     struct team all_teams[8]={t1,t2,t3,t4,t5,t6,t7,t8};
-    int i,j;
+    struct player player_highest_avg;
+    int i,j,maxavg,pos;
     int k =0;
     float avg[120];
     for (i = 0; i < 8 ; i++)
@@ -357,10 +452,34 @@ struct player highest_average()
         
     }
 
+    maxavg=avg[0];
     //INSERT MAX ELEMENT IN ARRAY ALGO HERE
+    for(i=0;i<120;++i)
+    {
+        if(avg[i]>maxavg)
+        {
+            maxavg=avg[i];
+ 
+        }
+    }
+    k=0;
+    for(i=0;i<8;i++)
+    {
+        for(j=0;j<15;++j)
+        {
+            if(avg[k]==maxavg)
+            {
+                player_highest_avg=all_teams[i].all_players[j];
+            }
+            k++;
+        }
+    }
+    
     //RETURN THE PLAYER WHICH HAS MAX AVERAGE
+    return player_highest_avg;
 
 }
+
 
 
     
@@ -374,7 +493,10 @@ struct player highest_average()
 
 int main()
 {
-    
+    int n;
+    printf("Enter the number of teams:\n");
+    scanf("%d",&n);
+
     return 0;
 }
 
