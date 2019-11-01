@@ -495,7 +495,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
             else{
                 for(k=0;k<2*groupsize;k++)
                 {   
-                    if(pointsTable[k][0]=ans)
+                    if(pointsTable[k][0]==ans)
                     {
                         pointsTable[k][1]+=2;
                     }
