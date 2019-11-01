@@ -324,13 +324,6 @@ void playing_eleven(struct team x)
     }
 }
 
-
-
-
-
-
-
-
 //Highest individual run 
 void mergeself(struct player A[],int l,int m,int n,struct player C[])
 {
@@ -406,15 +399,6 @@ void highest_run(struct team t[])
 	}	
 	
 }
-
-
-
-
-
-
-
-
-
 
 
 float calculate_average(struct team a,int i){
