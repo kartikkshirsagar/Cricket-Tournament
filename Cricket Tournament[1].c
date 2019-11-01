@@ -361,15 +361,15 @@ void highest_run(struct team t[])
 {
 
 	
-	int i,j,k=0;struct player a[120],c[120];				//a[] to store required players
+	int i,j,k=0;struct player a[120],c[120],runs;				//a[] to store required players
 	int max=t[0].all_players[0].previous_total_score+t[0].all_players[0].present_match_score;
 	
 	
 	for(i=0;i<8;++i)
 	{
-		int runs=t[i].all_players[i].previous_total_score+t[i].all_players[i].present_match_score;
 		for(j=0;j<15;++j)
 		{
+			runs=t[i].all_players[i].previous_total_score+t[i].all_players[i].present_match_score;
 			if(runs>=max)
 			{
 				if(runs==max)
@@ -613,7 +613,7 @@ void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playi
     printf("\n Enter the value of k(for man of the match):");
     scanf("%d",&k);
     int man_match[t][2];
-    struct player p[t],q[t];                            //man_match[][] stores man_of_the_match id and no. of times he's been declared man of the match
+    struct player p[t],q[t],r[t];                            //man_match[][] stores man_of_the_match id and no. of times he's been declared man of the match
     man_match[0][0]=match[0].man_of_the_match;
    
     for(i=0;i<t;++i)
@@ -630,16 +630,16 @@ void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playi
        
             man_match[i+1][0]=match[j].man_of_the_match;
     }
-    int m=0,count=0,s=0;
+    int m=0,count=0;
     while(m<t)
     {
-        if(man_match[m++][1]>=k)
-        {
+        if(man_match[m][1]>=k)
+	{     
             for(i=0;i<n;++i)
             {
                 for(j=0;j<15;++j)
                 {    
-                    if(teams_playing[i].all_players[j].player_id==man_match[s++][0])
+                    if(teams_playing[i].all_players[j].player_id==man_match[m][0])
                     {
                             p[count++]=teams_playing[i].all_players[j];
                     }
@@ -647,12 +647,39 @@ void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playi
                 }
             }
         }
+	    m++;
     }
     Mergesort(p,0,count,q);
+	printf("Man of the match atleast k times");
     for(i=0;i<count;++i)
     {
         printf("\n Name = %s ",p[i].player_name);
     }
+    int max=p[0].century;k=0;
+    for(i=0;i<count;++i)
+    {
+        if(p[i].century>=max)
+			{
+				if(p[i].century==max)
+				{
+					r[k]=p[i];
+					k++;
+				}
+				else {
+					k=0;
+					max=p[i].century;
+					r[k]=p[i];
+					k++;
+				}
+            }
+    }
+    Mergesort(r,0,k,q);
+    printf("Max no of centuries= %d by these:",max);
+    for(i=0;i<k;++i)
+    {
+        printf("\n Name = %s ",r[i].player_name);
+    }
+
 
 }
 //Function for total wickets taken by pacers 
@@ -697,7 +724,7 @@ int main()
     scanf("%d",&n);
     struct team teams_playing[n];
     int groupsize=n/2;
-    int total_matches=(n*(n-1))/2;
+    int total_matches=((n/2)*(n/2-1))/2 +3;
     struct match_played match[total_matches];
     printf("Please Enter team IDs\n");
     for (i = 0; i < n; i++)
