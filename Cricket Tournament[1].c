@@ -50,10 +50,10 @@ struct match_played
     int match_id;
     struct team teams_played[2];
     int highest_runs;
-    struct player man_of_the_match;
+    int man_of_the_match;
     int wicket_taken_by_pacers;
     enum {win,NR,tie} match_result;
-    struct team winning_team;
+    int winning_team;
 
 
 
@@ -395,7 +395,7 @@ void highest_run(struct team t[])
 	
 }
 
-
+//Highest average(assuming that no two individuals have the same average
 float calculate_average(struct team a,int i){
     float avg;
     int number_of_outs = a.all_players[i].previous_total_score/a.all_players[i].previous_avg;
@@ -469,10 +469,10 @@ void Init (struct team* a,int pointsTable[][2],int sz1)
 }
 
 
-void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int groupsize)
+void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int groupsize,struct match_played* match)
 {   
     void print4largest(int pointsTable[][2],int hi, int lo);
-    int i=0,j=0;int k;
+    int i=0,j=0;int k,t=0,p;
     int ans;
     printf("Matches will be played now in Group 1\n");
     for(i=0;i<groupsize-1;i++)
@@ -480,6 +480,10 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
         for (j = i+1; j < groupsize; j++)
         {
             printf("Match is being played between %d and %d\n",teams_playing[i].team_id,teams_playing[j].team_id);
+            t++;
+            match[t-1].match_id=t;
+            match[t-1].teams_played[0]=teams_playing[i];
+            match[t-1].teams_played[1]=teams_playing[j];
             printf("Who will win? Enter the id and type -1 for tie\n");
             scanf("%d",&ans);
             if(ans==-1)
@@ -501,6 +505,14 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     }
                 }
             }
+            printf("\nWhat is the highest run scored?");
+            scanf("%d",&match[t-1].highest_runs);
+            printf("\nWho is the man of the match?(enter player id)");
+            scanf("%d",&match[t-1].man_of_the_match);
+            
+            printf("\nWickets taken by pacer? ");
+            scanf("%d",&match[i].wicket_taken_by_pacers);
+            match[t-1].winning_team=ans;
         }
         
     }
@@ -515,17 +527,22 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
         for (j = i+1; j < 2*groupsize; j++)
         {
             printf("Match is being played between %d and %d\n",teams_playing[i].team_id,teams_playing[j].team_id);
+            t++;
+            match[t-1].match_id=t;
+            match[t-1].teams_played[0]=teams_playing[i];
+            match[t-1].teams_played[1]=teams_playing[j];
             printf("Who will win? Enter the id and type -1 for tie\n");
             scanf("%d",&ans);
             if(ans==-1)
             {
                 for(k=0;k<2*groupsize;k++)
                 {   
-                    if(pointsTable[k][0]==teams_playing[i].team_id||pointsTable[k][0]==teams_playing[j].team_id)
+                    if(pointsTable[k][0]==teams_playing[i].team_id || pointsTable[k][0]==teams_playing[j].team_id)
                     {
                         pointsTable[k][1]++;
                     }
                 }
+               
             }
             else{
                 for(k=0;k<2*groupsize;k++)
@@ -536,10 +553,17 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     }
                 }
             }
+            printf("What is the highest run scored?");
+            scanf("%d",&match[t-1].highest_runs);
+            printf("\nWho is the man of the match?(enter player id)");
+            scanf("%d",&match[t-1].man_of_the_match);
+            
+            printf("\nWickets taken by pacer? ");
+            scanf("%d",&match[i].wicket_taken_by_pacers);
+            match[t-1].winning_team=ans;
         }
         
     }
-	
     printf("\nPoints table:");
     for(i=0;i<2*groupsize;++i)printf("\n team %d = %d",pointsTable[i][0],pointsTable[i][1]);
     printf("\n");
@@ -557,7 +581,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
 void print4largest(int pointsTable[][2], int lo,int hi) 
 { 
 	int i, first, second; 
-	first = second=pointsTable[lo][1]; 
+	first = second=-1;
 	for (i = lo; i < hi ; i ++) 
 	{ 
 		if (pointsTable[i][1] > first) 
@@ -575,11 +599,62 @@ void print4largest(int pointsTable[][2], int lo,int hi)
         if(pointsTable[i][1]==first || pointsTable[i][1]==second)
         {
             printf("These teams will proceed to knock outs\n");
-
+            printf("point of team %d = %d \n",pointsTable[i][0],pointsTable[i][1]);
             printf("%d\n",pointsTable[i][0]);
         }
     }
 } 
+
+//function to show players who have been man of the match atleast k times
+void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playing,int n)
+{
+    /* data */
+    int k,i,j,t=(n*(n-1))/2;
+    printf("\n Enter the value of k(for man of the match):");
+    scanf("%d",&k);
+    int man_match[t][2];
+    struct player p[t],q[t];                            //man_match[][] stores man_of_the_match id and no. of times he's been declared man of the match
+    man_match[0][0]=match[0].man_of_the_match;
+   
+    for(i=0;i<t;++i)
+    {
+        man_match[i][1]=0;
+    }
+    for(i=0,j=0;i<t-1;++i,++j)
+    {
+        while(man_match[i][0]==match[j].man_of_the_match)
+        {
+            man_match[i][1]++;
+            ++j;
+        }
+       
+            man_match[i+1][0]=match[j].man_of_the_match;
+    }
+    int m=0,count=0,s=0;
+    while(m<t)
+    {
+        if(man_match[m++][1]>=k)
+        {
+            for(i=0;i<n;++i)
+            {
+                for(j=0;j<15;++j)
+                {    
+                    if(teams_playing[i].all_players[j].player_id==man_match[s++][0])
+                    {
+                            p[count++]=teams_playing[i].all_players[j];
+                    }
+                    
+                }
+            }
+        }
+    }
+    Mergesort(p,0,count,q);
+    for(i=0;i<count;++i)
+    {
+        printf("\n Name = %s ",p[i].player_name);
+    }
+
+}
 
 
 
@@ -600,13 +675,16 @@ int main()
     scanf("%d",&n);
     struct team teams_playing[n];
     int groupsize=n/2;
+    int total_matches=(n*(n-1))/2;
+    struct match_played match[total_matches];
     printf("Please Enter team ID's\n");
     for (i = 0; i < n; i++)
     {
         scanf("%d",&teams_playing[i].team_id);
     }
     Init(teams_playing,pointsTable,n);
-    beginTournament(teams_playing,pointsTable,n,groupsize);
+    beginTournament(teams_playing,pointsTable,n,groupsize,match);
+    /*man_of_the_match_ktimes(match,teams_playing,n);*/
 
     
     return 0;
