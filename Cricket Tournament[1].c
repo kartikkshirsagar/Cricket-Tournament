@@ -459,7 +459,7 @@ struct player highest_average(int n)
 
 }
 
-void Init (struct team* a,int* pointsTable[],int sz1)
+void Init (struct team* a,int *pointsTable[],int sz1)
 {
     for(int i=0;i<sz1;i++)
     {
@@ -469,7 +469,7 @@ void Init (struct team* a,int* pointsTable[],int sz1)
 }
 
 
-void beginTournament(struct team* teams_playing,int* pointsTable[],int sz,int groupsize)
+void beginTournament(struct team* teams_playing,int *pointsTable[],int sz,int groupsize)
 {   
     void print4largest(int* pointsTable[],int groupsize);
     int i=0,j=0;int k;
