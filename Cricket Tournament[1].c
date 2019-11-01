@@ -655,9 +655,31 @@ void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playi
     }
 
 }
+//Function for total wickets taken by pacers 
+// Concept is we add all the wickets taken by all the players and then subtract that amount by the wickets taken by pacers in each match
+// we take all matches array , iterate for every wicket taken by pacer attr.
 
-
-
+int number_of_spinner_wickets(struct match_played* match,int n,struct team* players) //n is number of teams
+{
+    //i know that n*15 would be number of players
+    int i,j,total_wickets=0,wickets_taken_by_pacers=0;
+    int total_matches = ((n/2)*(n/2-1))+3;
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<15;j++)
+        {
+            total_wickets+=players[i].all_players[j].previous_total_wickets;
+        }
+    }
+    
+    for(i=0;i<total_matches;i++)
+    {
+        wickets_taken_by_pacers+=match[i].wicket_taken_by_pacers;
+       
+    }
+    
+    return (total_wickets-wickets_taken_by_pacers);
+}
     
 
 
@@ -677,7 +699,7 @@ int main()
     int groupsize=n/2;
     int total_matches=(n*(n-1))/2;
     struct match_played match[total_matches];
-    printf("Please Enter team ID's\n");
+    printf("Please Enter team IDs\n");
     for (i = 0; i < n; i++)
     {
         scanf("%d",&teams_playing[i].team_id);
