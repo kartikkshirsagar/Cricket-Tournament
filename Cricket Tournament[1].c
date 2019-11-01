@@ -539,6 +539,10 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
         }
         
     }
+	
+    printf("\nPoints table:");
+    for(i=0;i<2*groupsize;++i)printf("\n team %d = %d",pointsTable[i][0],pointsTable[i][1]);
+    printf("\n");
     print4largest(pointsTable,0,groupsize);
     print4largest(pointsTable,groupsize,2*groupsize);
 
