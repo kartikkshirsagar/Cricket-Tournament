@@ -361,7 +361,8 @@ void highest_run(struct team t[])
 {
 
 	
-	int i,j,k=0;struct player a[120],c[120],runs;				//a[] to store required players
+	int i,j,k=0,runs;
+    struct player a[120],c[120];				//a[] to store required players
 	int max=t[0].all_players[0].previous_total_score+t[0].all_players[0].present_match_score;
 	
 	
@@ -369,7 +370,7 @@ void highest_run(struct team t[])
 	{
 		for(j=0;j<15;++j)
 		{
-			runs=t[i].all_players[i].previous_total_score+t[i].all_players[i].present_match_score;
+			runs=t[i].all_players[i].previous_total_score + t[i].all_players[i].present_match_score;
 			if(runs>=max)
 			{
 				if(runs==max)
