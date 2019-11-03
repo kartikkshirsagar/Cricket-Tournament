@@ -908,15 +908,6 @@ int main()
     
     
     }
-    
-    printf("Please enter the ids of matches which were played, and the ids of man of the match players in the respective matches ");
-    for(i=0;i<total_matches;i++)
-    {
-        scanf("%d %d",match[i].match_id,match[i].man_of_the_match);
-    }
-    man_of_the_match_ktimes(match,teams_playing,n);
-
-    
-    return 0;
+return 0;
 }
 
