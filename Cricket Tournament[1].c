@@ -64,8 +64,46 @@ void swapstructure(struct player* a, struct player* b)
     struct player t = *a; 
     *a = *b; 
     *b = t; 
+}
+
+void swap(int* a, int* b) 
+{ 
+	int t = *a; 
+	*a = *b; 
+	*b = t; 
 } 
-  
+
+
+int partition (int arr[], int low, int high) 
+{ 
+	int pivot = arr[high];
+	int i = (low - 1);
+	for (int j = low; j <= high- 1; j++) 
+	{ 
+		
+		if (arr[j] < pivot) 
+		{ 
+			i++; 
+			swap(&arr[i], &arr[j]); 
+		} 
+	} 
+	swap(&arr[i + 1], &arr[high]); 
+	return (i + 1); 
+} 
+
+
+void quickSort(int arr[], int low, int high) 
+{ 
+	if (low < high) 
+	{ 
+		int pi = partition(arr, low, high); 
+		quickSort(arr, low, pi - 1); 
+		quickSort(arr, pi + 1, high); 
+	} 
+} 
+
+
+
 
 
 
@@ -357,7 +395,7 @@ void Mergesort(struct player A[],int low,int high,struct player C[])
 }
 
 
-void highest_run(struct team t[])
+int highest_run(struct team t[])
 {
 
 	
@@ -392,7 +430,8 @@ void highest_run(struct team t[])
 	for(i=0;i<k;++i)
 	{
 		printf("Name= %s  Runs= %d\n",a[i].player_name,a[i].previous_total_score+a[i].present_match_score);
-	}	
+	}
+   return a[i].player_id; 	
 	
 }
 
@@ -709,9 +748,54 @@ int number_of_spinner_wickets(struct match_played* match,int n,struct team* play
     return (total_wickets-wickets_taken_by_pacers);
 }
     
+int max_man_of_the_match(struct match_played* match,int n)
+{
+    int i,j;
+    int count=1,maxCount=1;
+    int total_matches=((n/2)*(n/2-1))+3;
+    int man_match[total_matches];
+    int mode = man_match[0];
+    for (i = 0,j=0; i < total_matches; i++)
+    {   
+        man_match[j]=match[i].man_of_the_match;  //ids stored
+    }
+    //now i can calculate mode of the data to find the player with max mom awards.
+    quickSort(man_match,0,total_matches-1);
 
+    for(i=0;i<total_matches-1;i++)
+    {
+        if(man_match[i+1]=man_match[i])
+        {
+            count++;
+        }
+        else
+        {
+            count=1;
+        }
+        if(count>maxCount)
+        {
+            maxCount=count;
+            mode=man_match[i];
+        }
+    }
+    return mode;
+}
 
+void check_mom_is_highest_run_scorer(struct match_played* match,int n,struct team* t)
+{
+    int highest,maxmom;
+    highest = highest_run(t);
+    maxmom = max_man_of_the_match(match,n);
+    if(highest==maxmom)
+    {
+        printf("The highest run scorer is also the player who has won max number of man of the match awards");
 
+    }
+    else{
+        printf("The highest run scorer and the max man of the match awardee are different");
+    }
+
+}
 
 
 
@@ -720,9 +804,10 @@ int number_of_spinner_wickets(struct match_played* match,int n,struct team* play
 int main()
 {
     int n,i;
-    int pointsTable[8][2];    
+        
     printf("Enter the number of teams:\n");
     scanf("%d",&n);
+    int pointsTable[n][2];
     struct team teams_playing[n];
     int groupsize=n/2;
     int total_matches=((n/2)*(n/2-1)) +3;
@@ -734,6 +819,11 @@ int main()
     }
     Init(teams_playing,pointsTable,n);
     beginTournament(teams_playing,pointsTable,n,groupsize,match);
+    printf("Please enter the ids of matches which were played, and the ids of man of the match players in the respective matches ");
+    for(i=0;i<total_matches;i++)
+    {
+        scanf("%d %d",match[i].match_id,match[i].man_of_the_match);
+    }
     /*man_of_the_match_ktimes(match,teams_playing,n);*/
 
     
