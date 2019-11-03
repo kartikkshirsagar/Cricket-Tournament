@@ -355,6 +355,14 @@ void playing_eleven(struct team x)
         }
         
     }
+    for ( i = 0; i < 7; i++)
+    {
+        for ( j = 0; j < size1*15; j++)
+        {
+            printf(" %d ", final_eleven[i][j]); 
+        }
+        printf("\n");
+    }
 }
 
 //Highest individual run 
@@ -395,16 +403,16 @@ void Mergesort(struct player A[],int low,int high,struct player C[])
 }
 
 
-int highest_run(struct team t[])
+int highest_run(struct team t[],int n)
 {
 
 	
 	int i,j,k=0,runs;
-    struct player a[120],c[120];				//a[] to store required players
+    struct player a[n*15],c[n*15];				//a[] to store required players
 	int max=t[0].all_players[0].previous_total_score+t[0].all_players[0].present_match_score;
 	
 	
-	for(i=0;i<8;++i)
+	for(i=0;i<n;++i)
 	{
 		for(j=0;j<15;++j)
 		{
@@ -453,15 +461,13 @@ float calculate_average(struct team a,int i){
 }
 
 
-struct player highest_average(int n)
+struct player highest_average(struct team* all_teams,int n)
 {  
-
-    struct team all_teams[8]={t1,t2,t3,t4,t5,t6,t7,t8};
     struct player player_highest_avg;
     int i,j,maxavg,pos;
     int k =0;
     float avg[120];
-    for (i = 0; i < 8 ; i++)
+    for (i = 0; i < n ; i++)
     {
         for (j = 0; j < 15 ; j++)
         {
@@ -726,7 +732,7 @@ void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playi
 // Concept is we add all the wickets taken by all the players and then subtract that amount by the wickets taken by pacers in each match
 // we take all matches array , iterate for every wicket taken by pacer attr.
 
-int number_of_spinner_wickets(struct match_played* match,int n,struct team* players) //n is number of teams
+int diff_of_spinner_pacer_wickets(struct match_played* match,int n,struct team* players) //n is number of teams
 {
     //i know that n*15 would be number of players
     int i,j,total_wickets=0,wickets_taken_by_pacers=0;
@@ -744,8 +750,8 @@ int number_of_spinner_wickets(struct match_played* match,int n,struct team* play
         wickets_taken_by_pacers+=match[i].wicket_taken_by_pacers;
        
     }
-    
-    return (total_wickets-wickets_taken_by_pacers);
+    int wickets_by_spinners = total_wickets-wickets_taken_by_pacers;
+    return (wickets_by_spinners - wickets_taken_by_pacers);
 }
     
 int max_man_of_the_match(struct match_played* match,int n)
@@ -784,7 +790,7 @@ int max_man_of_the_match(struct match_played* match,int n)
 void check_mom_is_highest_run_scorer(struct match_played* match,int n,struct team* t)
 {
     int highest,maxmom;
-    highest = highest_run(t);
+    highest = highest_run(t,n);
     maxmom = max_man_of_the_match(match,n);
     if(highest==maxmom)
     {
@@ -803,7 +809,8 @@ void check_mom_is_highest_run_scorer(struct match_played* match,int n,struct tea
 
 int main()
 {
-    int n,i;
+    int n,i,j,scene,highestRunScorer;
+    struct player player;
         
     printf("Enter the number of teams:\n");
     scanf("%d",&n);
@@ -812,6 +819,11 @@ int main()
     int groupsize=n/2;
     int total_matches=((n/2)*(n/2-1)) +3;
     struct match_played match[total_matches];
+    printf("What do you want to do?\n");
+    printf("Type 1 to begin the tournament.\nType 2 to view the highest run scorer.\nType 3 to see player who was man of the match the most times.\nType 4 to see whether 2 and 3 are the same players\nType 5 to see highest averaged batsman\nType 6 to view difference between wickets taken by spinners and pacers.\nType 7 to view players who were man of the match for atleast k times.\n");
+    switch (scene)
+    {
+    case 1:
     printf("Please Enter team IDs\n");
     for (i = 0; i < n; i++)
     {
@@ -819,12 +831,90 @@ int main()
     }
     Init(teams_playing,pointsTable,n);
     beginTournament(teams_playing,pointsTable,n,groupsize,match);
+    break;
+
+
+
+    case 2:
+    printf("Enter the previous total scores and present match scores of all players(n*15 players) ");
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<15;j++)
+        {
+            scanf("%d %d", &teams_playing[i].all_players[j].previous_total_score, &teams_playing[i].all_players[j].present_match_score);
+            printf("Player name?");
+            scanf("%s",teams_playing[i].all_players[j].player_name);
+        }
+    }
+    highestRunScorer = highest_run(teams_playing,n);
+    break;
+
+
+
+    case 3:
+    printf("Please enter who was man of the match in each match.Type IDs.");
+    for(i=0;i<total_matches;i++)
+    {
+        printf("Man of the match for match %d : ",i);
+        scanf("%d",&match[i].man_of_the_match);
+    }
+    int maxManOM = max_man_of_the_match(match,n);
+    printf("%d",maxManOM);
+    break;
+
+    case 4:
+    check_mom_is_highest_run_scorer(match,n,teams_playing);
+    break;
+
+    case 5: 
+    printf("Enter previous total scores and previous averages of all players in all teams\n");
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<15;j++)
+        {
+            scanf("%d %f",&teams_playing[i].all_players[j].previous_total_score,&teams_playing[i].all_players[j].previous_avg);
+        }
+    }
+    player=highest_average(teams_playing,n);
+    printf("%d",player.player_id);
+    
+    break;
+
+    case 6:
+    printf("Enter previous total wickets of all players");
+    for(i=0;i<n;i++)
+    {
+        for ( j = 0;j <15 ; j++)
+        {
+            scanf("%d",&teams_playing[i].all_players[j].previous_total_wickets);
+        }
+    }
+    printf("Enter the wickets by pacers for each match");
+    for (i = 0; i < total_matches; i++)
+    {
+        scanf("%d",&match[i].wicket_taken_by_pacers);
+    }
+    int diffWickets=diff_of_spinner_pacer_wickets(match,n,teams_playing);
+    printf("%d",diffWickets);
+    break;
+
+    case 7:
+    man_of_the_match_ktimes(match,teams_playing,n);
+    break;
+
+    case 8:
+    break;
+    
+    
+    
+    }
+    
     printf("Please enter the ids of matches which were played, and the ids of man of the match players in the respective matches ");
     for(i=0;i<total_matches;i++)
     {
         scanf("%d %d",match[i].match_id,match[i].man_of_the_match);
     }
-    /*man_of_the_match_ktimes(match,teams_playing,n);*/
+    man_of_the_match_ktimes(match,teams_playing,n);
 
     
     return 0;
