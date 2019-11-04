@@ -814,7 +814,7 @@ int main()
         
     printf("Enter the number of teams:\n");
     scanf("%d",&n);
-    int pointsTable[n][2],x;
+    int pointsTable[n][2],g;
     struct team teams_playing[n];
     int groupsize=n/2;
     int total_matches=((n/2)*(n/2-1)) +3;
@@ -845,7 +845,7 @@ int main()
         {
 	    	printf("Player name?");
             scanf("%s",teams_playing[i].all_players[j].player_name);
-            scanf("%d %d", &team_playing[i].all_players[j].previous_total_score, &teams_playing[i].all_players[j].present_match_score);
+            scanf("%d %d", &teams_playing[i].all_players[j].previous_total_score, &teams_playing[i].all_players[j].present_match_score);
             
         }
     }
@@ -876,7 +876,7 @@ int main()
     {
         for(j=0;j<15;j++)
         {
-            scanf("%d %f %d",&teams_playing[i].all_players[j].previous_total_score,&teams_playing[i].all_players[j].previous_avg,teams_playing[i].all_players[j].playing);
+            scanf("%d %f %d",&teams_playing[i].all_players[j].previous_total_score,&teams_playing[i].all_players[j].previous_avg,&teams_playing[i].all_players[j].playing);
 			
         }
     }
@@ -917,8 +917,8 @@ int main()
 			scanf("%d %s",&teams_playing[i].all_players[j].player_id,teams_playing[i].all_players[j].player_role);
 		}
 	}
-	printf("Enter the team id whose all possible combinations of playing eleven you want to have a look at(0-n) : %d\n",&x);
- 	playing_eleven(teams_playing[x]);
+	printf("Enter the team id whose all possible combinations of playing eleven you want to have a look at(0-n) : %d\n",&g);
+ 	playing_eleven(teams_playing[g]);
     break;
     
     
