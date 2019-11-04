@@ -26,7 +26,7 @@ struct player
     int present_match_score;
     int present_match_wicket;
     char player_role[10];
-    enum {out,notout} playing;
+    int playing;
 
 };
 
@@ -449,7 +449,7 @@ float calculate_average(struct team a,int i){
     int number_of_outs = a.all_players[i].previous_total_score/a.all_players[i].previous_avg;
     a.all_players[i].previous_total_score += a.all_players[i].present_match_score;
     
-    if(a.all_players[i].playing==notout)
+    if(a.all_players[i].playing==1)
     {
         a.all_players[i].previous_avg=a.all_players[i].previous_total_score/number_of_outs;
     }
@@ -751,7 +751,7 @@ int diff_of_spinner_pacer_wickets(struct match_played* match,int n,struct team* 
        
     }
     int wickets_by_spinners = total_wickets-wickets_taken_by_pacers;
-    return (wickets_by_spinners - wickets_taken_by_pacers);
+    return (abs(wickets_by_spinners - wickets_taken_by_pacers));
 }
     
 int max_man_of_the_match(struct match_played* match,int n)
@@ -814,18 +814,19 @@ int main()
         
     printf("Enter the number of teams:\n");
     scanf("%d",&n);
-    int pointsTable[n][2];
+    int pointsTable[n][2],x;
     struct team teams_playing[n];
     int groupsize=n/2;
     int total_matches=((n/2)*(n/2-1)) +3;
     struct match_played match[total_matches];
     printf("What do you want to do?\n");
+   	
     printf("Type 1 to begin the tournament.\nType 2 to view the highest run scorer.\nType 3 to see player who was man of the match the most times.\nType 4 to see whether 2 and 3 are the same players\nType 5 to see highest averaged batsman\nType 6 to view difference between wickets taken by spinners and pacers.\nType 7 to view players who were man of the match for atleast k times.\n");
     scanf("%d",&scene);
     switch (scene)
     {
     case 1:
-    printf("Please Enter team IDs\n");
+    printf("Please Enter team IDs(team IDs should be like 0,1,2,...,n-1) \n");
     for (i = 0; i < n; i++)
     {
         scanf("%d",&teams_playing[i].team_id);
@@ -842,12 +843,14 @@ int main()
     {
         for(j=0;j<15;j++)
         {
-            scanf("%d %d", &teams_playing[i].all_players[j].previous_total_score, &teams_playing[i].all_players[j].present_match_score);
-            printf("Player name?");
+	    	printf("Player name?");
             scanf("%s",teams_playing[i].all_players[j].player_name);
+            scanf("%d %d", &team_playing[i].all_players[j].previous_total_score, &teams_playing[i].all_players[j].present_match_score);
+            
         }
     }
     highestRunScorer = highest_run(teams_playing,n);
+	printf("Player with highest runs(Player ID): %d",highestRunScorer);
     break;
 
 
@@ -860,7 +863,7 @@ int main()
         scanf("%d",&match[i].man_of_the_match);
     }
     int maxManOM = max_man_of_the_match(match,n);
-    printf("%d",maxManOM);
+    printf("Player ID of the Man of the Match(maximum times) : %d",maxManOM);
     break;
 
     case 4:
@@ -868,21 +871,23 @@ int main()
     break;
 
     case 5: 
-    printf("Enter previous total scores and previous averages of all players in all teams\n");
+    printf("Enter previous total scores and previous averages of all players in all teams and if he's out/notout in the latest match(1 for notout 0 for out) \n");
     for(i=0;i<n;i++)
     {
         for(j=0;j<15;j++)
         {
-            scanf("%d %f",&teams_playing[i].all_players[j].previous_total_score,&teams_playing[i].all_players[j].previous_avg);
+            scanf("%d %f %d",&teams_playing[i].all_players[j].previous_total_score,&teams_playing[i].all_players[j].previous_avg,teams_playing[i].all_players[j].playing);
+			
         }
     }
+			
     player=highest_average(teams_playing,n);
-    printf("%d",player.player_id);
+    printf("Player with highest average(Player ID) : %d",player.player_id);
     
     break;
 
     case 6:
-    printf("Enter previous total wickets of all players");
+    printf("Enter previous total wickets of all players\n");
     for(i=0;i<n;i++)
     {
         for ( j = 0;j <15 ; j++)
@@ -890,13 +895,13 @@ int main()
             scanf("%d",&teams_playing[i].all_players[j].previous_total_wickets);
         }
     }
-    printf("Enter the wickets by pacers for each match");
+    printf("Enter the wickets by pacers for each match\n");
     for (i = 0; i < total_matches; i++)
     {
         scanf("%d",&match[i].wicket_taken_by_pacers);
     }
     int diffWickets=diff_of_spinner_pacer_wickets(match,n,teams_playing);
-    printf("%d",diffWickets);
+    printf("Difference between no. of wickets by pacers and spinners : %d",diffWickets);
     break;
 
     case 7:
@@ -904,6 +909,16 @@ int main()
     break;
 
     case 8:
+	printf("Enter player IDs and their respective roles:\n");
+	for(i=0;i<n;++i)
+	{
+		for(j=0;j<15;++j)
+		{
+			scanf("%d %s",&teams_playing[i].all_players[j].player_id,teams_playing[i].all_players[j].player_role);
+		}
+	}
+	printf("Enter the team id whose all possible combinations of playing eleven you want to have a look at(0-n) : %d\n",&x);
+ 	playing_eleven(teams_playing[x]);
     break;
     
     
