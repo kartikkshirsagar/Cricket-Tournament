@@ -10,6 +10,7 @@ There are only two best batsmen or bowlers in a team(i.e no 3 best players).
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include<string.h>
 struct player
 {
     /* data */
@@ -371,7 +372,7 @@ void mergeself(struct player A[],int l,int m,int n,struct player C[])
 	int i=l,j=m+1,k=l;
 	while(i<=m && j<=n)
 	{
-		if(A[i].player_name<A[j].player_name)
+		if(strcmp(A[i].player_name,A[j].player_name)<0)
 			C[k++]=A[i++];
 		else
 			C[k++]=A[j++];
@@ -439,7 +440,7 @@ int highest_run(struct team t[],int n)
 	{
 		printf("Name= %s  Runs= %d\n",a[i].player_name,a[i].previous_total_score+a[i].present_match_score);
 	}
-   return a[i].player_id; 	
+   return a[0].player_id; 	
 	
 }
 
