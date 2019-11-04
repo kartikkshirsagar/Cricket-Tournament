@@ -656,32 +656,43 @@ void print4largest(int pointsTable[][2], int lo,int hi)
 void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playing,int n)
 {
     /* data */
-    int k,i,j,t=((n/2)*((n/2)-1)) +3;
+    int k,i,m,j,total_matches=((n/2)*((n/2)-1)) +3;
     printf("\n Enter the value of k(for man of the match):");
     scanf("%d",&k);
-    int man_match[t][2];
-    struct player p[t],q[t],r[t];                            //man_match[][] stores man_of_the_match id and no. of times he's been declared man of the match
+    int man_match[total_matches][2],temp[total_matches];
+    struct player p[total_matches],q[total_matches],r[total_matches];                            //man_match[][] stores man_of_the_match id and no. of times he's been declared man of the match
     man_match[0][0]=match[0].man_of_the_match;
    
-    for(i=0;i<t;++i)
+    for(i=0;i<total_matches;++i)
     {
-        man_match[i][1]=0;
+        man_match[i][1]=1;
+        man_match[i][0]=match[i].man_of_the_match;
+	temp[i]=match[i].man_of_the_match;
     }
-    for(i=0,j=0;i<t-1;++i,++j)
+    quickSort(temp,0,total_matches-1);
+    for(i=0;i<total_matches;++i)
     {
-        while(man_match[i][0]==match[j].man_of_the_match)
+        man_match[i][0]=temp[i];
+    }
+    for(i=0,m=1;i<total_matches-1 && m<total_matches;++i,++m)
+    {
+        while(man_match[i][0]==man_match[m][0])
         {
             man_match[i][1]++;
-            ++j;
+            ++m;
         }
-       
-            man_match[i+1][0]=match[j].man_of_the_match;
+            if (m<total_matches)
+            {
+                man_match[i+1][0]=man_match[m][0];
+            }
+            
+           
     }
-    int m=0,count=0;
-    while(m<t)
+    int count=0,req_motm=i;m=0;
+    while(m<req_motm)
     {
         if(man_match[m][1]>=k)
-	{     
+	    {     
             for(i=0;i<n;++i)
             {
                 for(j=0;j<15;++j)
