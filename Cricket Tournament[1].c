@@ -917,7 +917,8 @@ int main()
 			scanf("%d %s",&teams_playing[i].all_players[j].player_id,teams_playing[i].all_players[j].player_role);
 		}
 	}
-	printf("Enter the team id whose all possible combinations of playing eleven you want to have a look at(0-n) : %d\n",&g);
+	printf("Enter the team id whose all possible combinations of playing eleven you want to have a look at(0-n) :\n");
+	scanf("%d",&g);
  	playing_eleven(teams_playing[g]);
     break;
     
