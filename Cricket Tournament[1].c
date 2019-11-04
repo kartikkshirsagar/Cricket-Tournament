@@ -833,7 +833,7 @@ int max_man_of_the_match(struct match_played* match,int n,struct team* teams_pla
         }
     }
     int total=k;k=0;int l=0;
-    char player_names[total][40],C[k][40];
+    char player_names[total][40],C[total][40];
     while(k<total)
     {
         for(i=0;i<n;++i)
