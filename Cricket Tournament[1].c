@@ -621,32 +621,43 @@ void print4largest(int pointsTable[][2], int lo,int hi)
 void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playing,int n)
 {
     /* data */
-    int k,i,j,t=((n/2)*((n/2)-1)) +3;
+    int k,i,m,j,total_matches=((n/2)*((n/2)-1)) +3;
     printf("\n Enter the value of k(for man of the match):");
     scanf("%d",&k);
-    int man_match[t][2];
-    struct player p[t],q[t],r[t];                            //man_match[][] stores man_of_the_match id and no. of times he's been declared man of the match
+    int man_match[total_matches][2],temp[total_matches];
+    struct player p[total_matches],q[total_matches],r[total_matches];                            //man_match[][] stores man_of_the_match id and no. of times he's been declared man of the match
     man_match[0][0]=match[0].man_of_the_match;
    
-    for(i=0;i<t;++i)
+    for(i=0;i<total_matches;++i)
     {
-        man_match[i][1]=0;
+        man_match[i][1]=1;
+        man_match[i][0]=match[i].man_of_the_match;
+	temp[i]=match[i].man_of_the_match;
     }
-    for(i=0,j=0;i<t-1;++i,++j)
+    quickSort(temp,0,total_matches-1);
+    for(i=0;i<total_matches;++i)
     {
-        while(man_match[i][0]==match[j].man_of_the_match)
+        man_match[i][0]=temp[i];
+    }
+    for(i=0,m=1;i<total_matches-1 && m<total_matches;++i,++m)
+    {
+        while(man_match[i][0]==man_match[m][0])
         {
             man_match[i][1]++;
-            ++j;
+            ++m;
         }
-       
-            man_match[i+1][0]=match[j].man_of_the_match;
+            if (m<total_matches)
+            {
+                man_match[i+1][0]=man_match[m][0];
+            }
+            
+           
     }
-    int m=0,count=0;
-    while(m<t)
+    int count=0,req_motm=i;m=0;
+    while(m<req_motm)
     {
         if(man_match[m][1]>=k)
-	{     
+	    {     
             for(i=0;i<n;++i)
             {
                 for(j=0;j<15;++j)
@@ -720,23 +731,59 @@ int diff_of_spinner_pacer_wickets(struct match_played* match,int n,struct team* 
     return (abs(wickets_by_spinners - wickets_taken_by_pacers));
 }
     
-int max_man_of_the_match(struct match_played* match,int n)
+void mergeselfnames(char A[][40],int l,int m,int n,char C[][40])
+{
+	int i=l,j=m+1,k=l;
+	while(i<=m && j<=n)
+	{
+		if(strcmp(A[i],A[j])<0)
+			{strcpy(C[k++],A[i++]);}
+		else
+			strcpy(C[k++],A[j++]);
+	}
+
+	if(i<=m)
+		while(i<=m)strcpy(C[k++],A[i++]);
+	else
+		while(j<=n)strcpy(C[k++],A[j++]);
+	
+	for(i=l;i<=n;++i)
+		strcpy(A[i],C[i]);
+	
+	
+}
+
+void Mergesortnames(char A[][40],int low,int high,char C[][40])
+{
+	
+	int i;
+	int mid;
+	if(low<high)
+	{
+		mid=(low+high)/2;
+		Mergesortnames(A,low,mid,C);
+		Mergesortnames(A,mid+1,high,C);
+		mergeselfnames(A,low,mid,high,C);
+	}
+}    
+int max_man_of_the_match(struct match_played* match,int n,struct team* teams_playing)
 {
     int i,j;
     int count=1,maxCount=1;
     int total_matches=((n/2)*(n/2-1))+3;
     int man_match[total_matches];
-    int mode = man_match[0];
-    for (i = 0,j=0; i < total_matches; i++)
+   
+    for (i = 0; i < total_matches; i++)
     {   
-        man_match[j]=match[i].man_of_the_match;  //ids stored
+        man_match[i]=match[i].man_of_the_match;  //ids stored
     }
+     int mode[total_matches];int k=0;
     //now i can calculate mode of the data to find the player with max mom awards.
     quickSort(man_match,0,total_matches-1);
 
     for(i=0;i<total_matches-1;i++)
     {
-        if(man_match[i+1]=man_match[i])
+        if(man_match[i+1]==man_match[i])
         {
             count++;
         }
@@ -744,20 +791,53 @@ int max_man_of_the_match(struct match_played* match,int n)
         {
             count=1;
         }
-        if(count>maxCount)
+        if(count>=maxCount)
         {
-            maxCount=count;
-            mode=man_match[i];
+            if(count==maxCount)
+            {
+                mode[k]=man_match[i];
+                k++;
+            }
+            else
+            {
+                k=0;
+                maxCount=count;
+                mode[k]=man_match[i];
+                k++;
+            }
+            
         }
     }
-    return mode;
+    int total=k;k=0;int l=0;
+    char player_names[total][40],C[total][40];
+    while(k<total)
+    {
+        for(i=0;i<n;++i)
+        {
+            for(j=0;j<15;++j)
+            {
+                if(mode[k]==teams_playing[i].all_players[j].player_id)
+                {
+                    strcpy(player_names[l++],teams_playing[i].all_players[j].player_name);
+                }
+            }
+        
+        }
+    k++;
+    }
+    Mergesortnames(player_names,0,total-1,C);
+    for(i=0;i<total;++i)
+    {
+        printf(" %s\n",player_names[i]);
+    }
+    return mode[0];
 }
 
 void check_mom_is_highest_run_scorer(struct match_played* match,int n,struct team* t)
 {
     int highest,maxmom;
     highest = highest_run(t,n);
-    maxmom = max_man_of_the_match(match,n);
+    maxmom = max_man_of_the_match(match,n,t);
     if(highest==maxmom)
     {
         printf("The highest run scorer is also the player who has won max number of man of the match awards");
@@ -785,6 +865,14 @@ int main()
     int groupsize=n/2;
     int total_matches=((n/2)*(n/2-1)) +3;
     struct match_played match[total_matches];
+    printf("Enter player IDs and their respective roles:\n");
+    for(i=0;i<n;++i)
+	{
+		for(j=0;j<15;++j)
+		{
+			scanf("%d %s",&teams_playing[i].all_players[j].player_id,teams_playing[i].all_players[j].player_role);
+		}
+	}
     printf("What do you want to do?\n");
    	
     printf("Type 1 to begin the tournament.\nType 2 to view the highest run scorer.\nType 3 to see player who was man of the match the most times.\nType 4 to see whether 2 and 3 are the same players\nType 5 to see highest averaged batsman\nType 6 to view difference between wickets taken by spinners and pacers.\nType 7 to view players who were man of the match for atleast k times.\nType 8 to view possible combinations of playing eleven\n");
@@ -828,7 +916,7 @@ int main()
         printf("Man of the match for match %d : ",i);
         scanf("%d",&match[i].man_of_the_match);
     }
-    int maxManOM = max_man_of_the_match(match,n);
+    int maxManOM = max_man_of_the_match(match,n,teams_playing);
     printf("Player ID of the Man of the Match(maximum times) : %d",maxManOM);
     break;
 
@@ -875,14 +963,7 @@ int main()
     break;
 
     case 8:
-	printf("Enter player IDs and their respective roles:\n");
-	for(i=0;i<n;++i)
-	{
-		for(j=0;j<15;++j)
-		{
-			scanf("%d %s",&teams_playing[i].all_players[j].player_id,teams_playing[i].all_players[j].player_role);
-		}
-	}
+	
 	printf("Enter the team id whose all possible combinations of playing eleven you want to have a look at(0-n) :\n");
 	scanf("%d",&g);
  	playing_eleven(teams_playing[g]);
