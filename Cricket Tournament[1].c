@@ -68,6 +68,16 @@ void swap(int* a, int* b)
 	*b = t; 
 } 
 
+int fact(int n)
+{
+    int i,f=1;
+    for(i=1;i<=n;i++)
+    {
+        f=f*i;
+    }
+    return f;
+}
+
 
 int partitionBat (struct player arr[], int low, int high) 
 { 
@@ -197,9 +207,9 @@ void playing_eleven(struct team x)
         if(x.all_players[i].player_id==selected[0]||x.all_players[i].player_id==selected[1]||x.all_players[i].player_id==selected[2]||x.all_players[i].player_id==selected[3])
         {
             j=i;
-            while(j<15)
+            while(j<14)
             {
-                x.all_players[i]=x.all_players[i+1];
+                x.all_players[j]=x.all_players[j+1];
                 j++;
             }
         }
@@ -226,7 +236,8 @@ void playing_eleven(struct team x)
     }
     int batsmenSize=(sizeof(batsmen)/sizeof(batsmen[0]));
     struct team temp;
-    int batsmencombination[3][batsmenSize];
+    int no_of_batsmencombi=fact(batsmenSize)/(fact(3)*fact(batsmenSize-3));
+    int batsmencombination[3][no_of_batsmencombi];
     
     l=0;
     printf("Combinations among Batsmen are:\n");
@@ -247,7 +258,8 @@ void playing_eleven(struct team x)
     }
 
     int bowlersSize=(sizeof(bowlers)/sizeof(bowlers[0]));
-    int bowlerscombination[2][bowlersSize];
+    int no_of_bowlerscombi=fact(bowlersSize)/(fact(2)*fact(bowlersSize-2));
+    int bowlerscombination[2][no_of_bowlerscombi];
     printf("Combinations among Bowlers are:\n");
     l=0;
     for ( i = 0; i < bowlersSize - 1; i++)
@@ -260,7 +272,7 @@ void playing_eleven(struct team x)
         }
         
     }
-    int size1=batsmenSize*bowlersSize;
+    int size1=no_of_batsmencombi*no_of_bowlerscombi;
     int batsmenandbowlerscombination[5][size1];
     i=0;
     while(i<batsmenSize*bowlersSize)
