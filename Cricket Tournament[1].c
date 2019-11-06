@@ -291,23 +291,26 @@ void playing_eleven(struct team x)
   
   
  int z;
- for  (z = 0; i < size1*15; z++) 
+ for  (z = 0; z < size1*15; z++) 
    {
         temp=x;
         i=0;j=0;
         while(i<5)
         {
-            while(j<15)
-            if(temp.all_players[j].player_id==batsmenandbowlerscombination[i][z])
-            {
-                deletePlayer(temp.all_players,11,j);
-                j++;
-            }
+            while(j<11)
+	    {
+	        if(temp.all_players[j].player_id==batsmenandbowlerscombination[i][z])
+                 {
+                   deletePlayer(temp.all_players,11,j);
+                 }
+	     j++;
+	    }
             i++;
 
         }
         int last_size=(sizeof(temp.all_players)/sizeof(temp.all_players[0]));
-        int final_combination[2][last_size];
+	int no_of_lastcombi=fact(last_size)/(fact(2)*fact(last_size-2));
+        int final_combination[2][no_of_lastcombi];
         l=0;
         for ( i = 0; i < 5; i++)
         {
@@ -329,15 +332,22 @@ void playing_eleven(struct team x)
                 final_eleven[y][j]=batsmenandbowlerscombination[y][z];
                 y++;
             }
-            final_eleven[y+1][0]=final_combination[0][j-15*z];
-            final_eleven[y+2][0]=final_combination[1][j-15*z];
+            final_eleven[y+1][j]=final_combination[0][j-15*z];
+            final_eleven[y+2][j]=final_combination[1][j-15*z];
             j++;
         }
         
     }
-    for ( i = 0; i < 7; i++)
+	
+    printf("These players are the top two batsmen and bowlers so they will be always there in the playing eleven,there player IDs are:\n");
+    printf(" %d\n",selected[0]);
+    printf(" %d\n",selected[2]);
+    printf(" %d\n",selected[1]);
+    printf(" %d\n",selected[3]);
+	
+    for ( j = 0; j < size1*15; j++)
     {
-        for ( j = 0; j < size1*15; j++)
+        for ( i = 0; i < 7; i++)
         {
             printf(" %d ", final_eleven[i][j]); 
         }
