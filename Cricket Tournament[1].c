@@ -60,12 +60,6 @@ struct match_played
 
 };
 
-void swapstructure(struct player* a, struct player* b) 
-{ 
-    struct player t = *a; 
-    *a = *b; 
-    *b = t; 
-}
 
 void swap(int* a, int* b) 
 { 
@@ -75,46 +69,13 @@ void swap(int* a, int* b)
 } 
 
 
-int partition (int arr[], int low, int high) 
-{ 
-	int pivot = arr[high];
-	int i = (low - 1);
-	for (int j = low; j <= high- 1; j++) 
-	{ 
-		
-		if (arr[j] < pivot) 
-		{ 
-			i++; 
-			swap(&arr[i], &arr[j]); 
-		} 
-	} 
-	swap(&arr[i + 1], &arr[high]); 
-	return (i + 1); 
-} 
-
-
-void quickSort(int arr[], int low, int high) 
-{ 
-	if (low < high) 
-	{ 
-		int pi = partition(arr, low, high); 
-		quickSort(arr, low, pi - 1); 
-		quickSort(arr, pi + 1, high); 
-	} 
-} 
-
-
-
-
-
-
 int partitionBat (struct player arr[], int low, int high) 
 { 
     struct player pivot = arr[high];  
         int i = low;
-        int j = high-1;
+        int j = high;
 
-    while(high>low)
+    while(j>i)
     {    
         while(arr[i].previous_avg>pivot.previous_avg)
         {
@@ -126,12 +87,14 @@ int partitionBat (struct player arr[], int low, int high)
         }
         if(arr[i].previous_avg<=pivot.previous_avg && arr[j].previous_avg>pivot.previous_avg )
         {
-            swapstructure(&arr[i],&arr[j]);
+            struct player t = arr[j]; 
+            arr[j] = arr[i]; 
+            arr[i] = t;
             i++;
             j--;
 
         }
-        swapstructure(&arr[j], &arr[high]); 
+        
          
     }
     return (j);
@@ -144,7 +107,7 @@ int partitionBowl (struct player arr[], int low, int high)
         int i = low;
         int j = high-1;
 
-    while(high>low)
+    while(j>i)
     {    
         while(arr[i].previous_total_wickets>pivot.previous_total_wickets)
         {
@@ -156,25 +119,26 @@ int partitionBowl (struct player arr[], int low, int high)
         }
         if(arr[i].previous_total_wickets<=pivot.previous_total_wickets && arr[j].previous_total_wickets>pivot.previous_total_wickets)
         {
-            swapstructure(&arr[i],&arr[j]);
-            i++;
+            struct player t = arr[j]; 
+            arr[j] = arr[i]; 
+            arr[i] = t;
             j--;
+            i++;
 
-        }
-        swapstructure(&arr[j], &arr[high]); 
-         
+        } 
     }
     return (j);
 } 
-  
-
-
-
 void quickSortStructureBat(struct player arr[], int low, int high) 
 { 
     if (low < high) 
     {    
-        int pi = partitionBat(arr, low, high);   
+        int pi = partitionBat(arr, low, high); 
+        struct player t = arr[pi];
+        arr[pi] = arr[low];
+        arr[low]=t;
+
+
         quickSortStructureBat(arr, low, pi - 1); 
         quickSortStructureBat(arr, pi + 1, high); 
     } 
@@ -186,12 +150,14 @@ void quickSortStructureBowl(struct player arr[], int low, int high)
 { 
     if (low < high) 
     {    
-        int pi = partitionBowl(arr, low, high);   
+        int pi = partitionBowl(arr, low, high); 
+        struct player t = arr[pi];
+        arr[pi] = arr[low];
+        arr[low]=t;   
         quickSortStructureBowl(arr, low, pi - 1); 
         quickSortStructureBowl(arr, pi + 1, high); 
     } 
 } 
-
 void deletePlayer(struct player* a,int sz,int i)
 {
     while(i<sz)
@@ -200,6 +166,7 @@ void deletePlayer(struct player* a,int sz,int i)
         i++;
     }
 }
+
 
 void playing_eleven(struct team x)
 {   
@@ -212,8 +179,8 @@ void playing_eleven(struct team x)
     //struct team final_eleven;
     int i=0,j=0;
 
-    quickSortStructureBat(sorted_team_batting.all_players,0,15);
-    quickSortStructureBowl(sorted_team_bowling.all_players,0,15);
+    quickSortStructureBat(sorted_team_batting.all_players,0,14);
+    quickSortStructureBowl(sorted_team_bowling.all_players,0,14);
 
     while(i<2)
     {
@@ -365,7 +332,6 @@ void playing_eleven(struct team x)
         printf("\n");
     }
 }
-
 //Highest individual run 
 void mergeself(struct player A[],int l,int m,int n,struct player C[])
 {
@@ -516,7 +482,7 @@ void Init (struct team* a,int pointsTable[][2],int sz1)
 }
 
 
-void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int groupsize,struct match_played* match)
+void beginTournament(struct team* teams_playing,int* pointsTable[2],int sz,int groupsize,struct match_played* match)
 {   
     void print4largest(int pointsTable[][2],int hi, int lo);
     int i=0,j=0;int k,t=0,p;
@@ -619,7 +585,6 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
 
  //SOrt teams playing array from 0 to groupsize-1 and groupsize to n-1
  //then top 2 teams from each group would advance to the knock outs.  
- /* Function to print the second largest element */
 
 
 
