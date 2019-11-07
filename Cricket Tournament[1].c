@@ -300,7 +300,7 @@ void playing_eleven(struct team x)
     int bowlersSize=(sizeof(bowlers)/sizeof(bowlers[0]));
     int no_of_bowlerscombi=fact(bowlersSize)/(fact(2)*fact(bowlersSize-2));
     int bowlerscombination[2][no_of_bowlerscombi];
-    printf("Combinations among Bowlers are:\n");
+    //printf("Combinations among Bowlers are:\n");
     l=0;
     for ( i = 0; i < bowlersSize - 1; i++)
     {
@@ -379,7 +379,7 @@ void playing_eleven(struct team x)
         
     }
 	
-    printf("These players are the top two batsmen and bowlers so they will be always there in the playing eleven,there player IDs are:\n");
+    printf("These players are the top two batsmen and bowlers so they will be always there in the playing eleven,their player IDs are:\n");
     printf(" %d\n",selected[0]);
     printf(" %d\n",selected[2]);
     printf(" %d\n",selected[1]);
