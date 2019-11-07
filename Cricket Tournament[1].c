@@ -639,9 +639,9 @@ void Init (struct team* a,int *pointsTable[2],int sz1)
 }
 
 
-void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int groupsize,struct match_played* match)
+void beginTournament(struct team* teams_playing,int *pointsTable[2],int sz,int groupsize,struct match_played* match)
 {   
-    void print4largest(int pointsTable[][2],int hi, int lo,int win[],int j);
+    void print4largest(int *pointsTable[2],int hi, int lo,int win[],int j);
     int i=0,j=0;int k,t=0,p,win[5];
     int ans;
     printf("Matches will be played now in Group 1\n");
@@ -822,7 +822,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
 
 }
 
-void print4largest(int pointsTable[][2], int lo,int hi,int win[],int j) 
+void print4largest(int *pointsTable[2], int lo,int hi,int win[],int j) 
 { 
 	int i, first, second; 
 	first = second=-1;
