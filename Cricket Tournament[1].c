@@ -218,6 +218,7 @@ void deletePlayer(struct player* a,int sz,int i)
 }
 
 
+
 void playing_eleven(struct team x)
 {   
     struct team sorted_team_batting=x;
@@ -534,7 +535,7 @@ struct player highest_average(struct team* all_teams,int n)
 
 }
 
-void Init (struct team* a,int pointsTable[][2],int sz1)
+void Init (struct team* a,int *pointsTable[2],int sz1)
 {
     for(int i=0;i<sz1;i++)
     {
@@ -546,7 +547,7 @@ void Init (struct team* a,int pointsTable[][2],int sz1)
 
 void beginTournament(struct team* teams_playing,int* pointsTable[2],int sz,int groupsize,struct match_played* match)
 {   
-    void print4largest(int pointsTable[][2],int hi, int lo);
+    void print4largest(int *pointsTable[2],int hi, int lo);
     int i=0,j=0;int k,t=0,p;
     int ans;
     printf("Matches will be played now in Group 1\n");
@@ -652,7 +653,7 @@ void beginTournament(struct team* teams_playing,int* pointsTable[2],int sz,int g
 
 }
 
-void print4largest(int pointsTable[][2], int lo,int hi) 
+void print4largest(int *pointsTable[2], int lo,int hi) 
 { 
 	int i, first, second; 
 	first = second=-1;
@@ -922,7 +923,8 @@ int main()
         
     printf("Enter the number of teams:\n");
     scanf("%d",&n);
-    int pointsTable[n][2],g;
+    int* pointsTable[2];
+    int g;
     struct team teams_playing[n];
     int groupsize=n/2;
     int total_matches=((n/2)*(n/2-1)) +3;
