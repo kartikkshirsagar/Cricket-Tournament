@@ -208,9 +208,70 @@ void quickSortStructureBowl(struct player arr[], int low, int high)
         quickSortStructureBowl(arr, pi + 1, high); 
     } 
 } 
+void swapstructure(struct player* a, struct player* b) 
+{ 
+    struct player t = *a; 
+    *a = *b; 
+    *b = t; 
+}
+
+void bubbleSortbat(struct player* arr, int n) 
+{ 
+   int i, j,sorted=0; 
+   for (i = 0; i < n-1 && sorted==0; i++) 
+   {  
+       sorted=1;
+     for (j = 0; j < n-i-1; j++) 
+     { 
+            if (arr[j].previous_total_score < arr[j+1].previous_total_score) 
+            { 
+            swapstructure(&arr[j], &arr[j+1]);
+            sorted=0; 
+            } 
+     } 
+   }
+
+   for(i=0;i<n-1;i++)
+   {
+       if(arr[i].previous_total_score==arr[i+1].previous_total_score)
+       {
+           if(arr[i+1].previous_avg > arr[i].previous_avg)
+           {
+               swapstructure(&arr[i+1],&arr[i]);
+           }
+       }
+   } 
+} 
+void bubbleSortbowl(struct player* arr, int n) 
+{ 
+   int i, j,sorted=0; 
+   for (i = 0; i < n-1 && sorted==0; i++) 
+   {  
+       sorted=1;
+     for (j = 0; j < n-i-1; j++) 
+     { 
+        if (arr[j].previous_total_wickets < arr[j+1].previous_total_wickets) 
+        { 
+           swapstructure(&arr[j], &arr[j+1]);
+           sorted=0; 
+        } 
+     } 
+   }
+   for(i=0;i<n-1;i++)
+   {
+       if(arr[i].previous_total_wickets==arr[i+1].previous_total_wickets)
+       {
+           if(arr[i+1].previous_wicket_avg > arr[i].previous_wicket_avg)
+           {
+               swapstructure(&arr[i+1],&arr[i]);
+           }
+       }
+   } 
+} 
+
 void deletePlayer(struct player* a,int sz,int i)
 {
-    while(i<sz)
+    while(i<sz-1)
     {
         a[i]=a[i+1];
         i++;
@@ -218,22 +279,25 @@ void deletePlayer(struct player* a,int sz,int i)
 }
 
 
-
 void playing_eleven(struct team x)
 {   
     struct team sorted_team_batting=x;
     struct team sorted_team_bowling=x;
-    int selected[10];//This is array of those player ids who are the best (both batsmen ans bowlers)
+    int selected[4];//This is array of those player ids who are the best (both batsmen ans bowlers)
     struct player batsmen[10];
     struct player bowlers[10];
     struct player allRounders[10];
     //struct team final_eleven;
     int i=0,j=0;
 
-    quickSortStructureBat(sorted_team_batting.all_players,0,14);
-    quickSortStructureBowl(sorted_team_bowling.all_players,0,14);
+    bubbleSortbat(sorted_team_batting.all_players,15);
+    bubbleSortbowl(sorted_team_bowling.all_players,15);
 
-    while(i<2)
+    selected[0]=sorted_team_batting.all_players[0].player_id;
+    selected[1]=sorted_team_batting.all_players[1].player_id;
+    selected[2]=sorted_team_bowling.all_players[0].player_id;
+    selected[3]=sorted_team_bowling.all_players[1].player_id;
+   /* while(i<2)
     {
         //printf("%d\n",sorted_team_batting.all_players[i].player_id);
         selected[j]=sorted_team_batting.all_players[i].player_id;
@@ -242,7 +306,7 @@ void playing_eleven(struct team x)
         selected[j]=sorted_team_bowling.all_players[i].player_id;
         j++;
         i++;
-    }
+    }*/
     for ( i = 0; i < 15; i++)
     {
         if(x.all_players[i].player_id==selected[0]||x.all_players[i].player_id==selected[1]||x.all_players[i].player_id==selected[2]||x.all_players[i].player_id==selected[3])
@@ -264,7 +328,7 @@ void playing_eleven(struct team x)
             batsmen[j]=x.all_players[i];
             j++;
         }
-        if(x.all_players[i].player_role[1]=='o')
+        else if(x.all_players[i].player_role[1]=='o')
         {
             bowlers[k]=x.all_players[i];
             k++;
@@ -275,7 +339,12 @@ void playing_eleven(struct team x)
             l++;
         }
     }
-    int batsmenSize=(sizeof(batsmen)/sizeof(batsmen[0]));
+    i=0;
+    while(batsmen[i].player_id!=0)
+    {
+        i++;
+    }
+    int batsmenSize=i;
     struct team temp;
     int no_of_batsmencombi=fact(batsmenSize)/(fact(3)*fact(batsmenSize-3));
     int batsmencombination[3][no_of_batsmencombi];
@@ -297,8 +366,13 @@ void playing_eleven(struct team x)
         }
 
     }
+    i=0;
+    while(bowlers[i].player_id!=0)
+    {
+        i++;
+    }
 
-    int bowlersSize=(sizeof(bowlers)/sizeof(bowlers[0]));
+    int bowlersSize=i;
     int no_of_bowlerscombi=fact(bowlersSize)/(fact(2)*fact(bowlersSize-2));
     int bowlerscombination[2][no_of_bowlerscombi];
     //printf("Combinations among Bowlers are:\n");
@@ -315,14 +389,30 @@ void playing_eleven(struct team x)
     }
     int size1=no_of_batsmencombi*no_of_bowlerscombi;
     int batsmenandbowlerscombination[5][size1];
-    i=0;
-    while(i<batsmenSize*bowlersSize)
+    for(i=0;i<5;i++)
     {
-        batsmenandbowlerscombination[0][i]=batsmencombination[0][i];
-        batsmenandbowlerscombination[1][i]=batsmencombination[1][i];
-        batsmenandbowlerscombination[2][i]=batsmencombination[2][i];
-        batsmenandbowlerscombination[3][i]=bowlerscombination[0][i];
-        batsmenandbowlerscombination[4][i]=bowlerscombination[1][i];
+        for ( j = 0; j < size1; j++)
+        {
+            batsmenandbowlerscombination[i][j]=0;
+        }
+        
+    }
+    i=0;j=0;k=0;
+    while(i<no_of_batsmencombi)
+    {
+        j=0;
+        while (j<no_of_bowlerscombi)
+        {
+            batsmenandbowlerscombination[0][k]=batsmencombination[0][i];
+            batsmenandbowlerscombination[1][k]=batsmencombination[1][i];
+            batsmenandbowlerscombination[2][k]=batsmencombination[2][i];
+            batsmenandbowlerscombination[3][k]=bowlerscombination[0][j];
+            batsmenandbowlerscombination[4][k]=bowlerscombination[1][j];
+            j++;
+            k++;
+        }
+        
+        
         i++;
     }
 
@@ -332,26 +422,26 @@ void playing_eleven(struct team x)
   
   
  int z;
- for  (z = 0; z < size1*15; z++) 
+ for  (z = 0; z < 17; z++) 
    {
         temp=x;
         i=0;j=0;
         while(i<5)
         {
+            j=0;
             while(j<11)
-	    {
-	        if(temp.all_players[j].player_id==batsmenandbowlerscombination[i][z])
-                 {
-                   deletePlayer(temp.all_players,11,j);
-                 }
-	     j++;
-	    }
+	        {
+	            if(temp.all_players[j].player_id==batsmenandbowlerscombination[i][z])
+                    {
+                        deletePlayer(temp.all_players,11,j);
+                    }
+	            j++;
+	        }
             i++;
-
         }
         int last_size=(sizeof(temp.all_players)/sizeof(temp.all_players[0]));
-	int no_of_lastcombi=fact(last_size)/(fact(2)*fact(last_size-2));
-        int final_combination[2][no_of_lastcombi];
+	    long int no_of_lastcombi=fact(last_size)/(fact(2)*fact(last_size-2));
+        int final_combination[2][15];
         l=0;
         for ( i = 0; i < 5; i++)
         {
@@ -364,18 +454,21 @@ void playing_eleven(struct team x)
             }
             
         }
-        j=15*z;
-        while(j<j+15)
+        i=0;j=0;
+        while(i<15)
         {
-            int y=0;
-            while(y<5)
+            j=0;
+            while(j<5)
             {
-                final_eleven[y][j]=batsmenandbowlerscombination[y][z];
-                y++;
+                final_eleven[j][i + z*15]=batsmenandbowlerscombination[j][z];
+                //fprintf("abc.txt","%d\n",batsmenandbowlerscombination[j][z]);
+                j++;
             }
-            final_eleven[y+1][j]=final_combination[0][j-15*z];
-            final_eleven[y+2][j]=final_combination[1][j-15*z];
-            j++;
+            final_eleven[j+1][i + z*15]=final_combination[0][i];
+            final_eleven[j+2][i + z*15]=final_combination[1][i];
+            //fprintf("abc.txt","%d\n",final_combination[0][i]);
+            //fprintf("abc.txt","%d\n\n\n",final_combination[1][i]);
+            i++;
         }
         
     }
@@ -386,13 +479,14 @@ void playing_eleven(struct team x)
     printf(" %d\n",selected[1]);
     printf(" %d\n",selected[3]);
 	
-    for ( j = 0; j < size1*15; j++)
+    for ( j = 0; j < 7; j++)
     {
-        for ( i = 0; i < 7; i++)
+        for ( i = 0; i < 266; i++)
         {
-            printf(" %d ", final_eleven[i][j]); 
+            printf("%2d ", final_eleven[j][i]); 
         }
         printf("\n");
+    
     }
 }
 //Highest individual run 
