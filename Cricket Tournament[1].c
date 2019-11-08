@@ -645,6 +645,8 @@ void beginTournament(struct team* teams_playing,int *pointsTable[2],int sz,int g
     void print4largest(int *pointsTable[2],int hi, int lo,int win[],int j);
     int i=0,j=0;int k,t=0,p,win[5];
     int ans;
+    FILE* fp;
+    fp = fopen("presentscoreandWickets.txt","r");
     printf("Matches will be played now in Group 1\n");
     for(i=0;i<groupsize-1;i++)
     {
@@ -685,7 +687,7 @@ void beginTournament(struct team* teams_playing,int *pointsTable[2],int sz,int g
                 {
                     printf("Player name?");
                     scanf("%s",teams_playing[i].all_players[j].player_name);
-                    scanf("%d %d", &teams_playing[i].all_players[j].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
+                    fscanf(fp,"%d %d", &teams_playing[i].all_players[j].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
                     teams_playing[i].all_players[j].previous_total_score+=teams_playing[i].all_players[j].present_match_score;
                     teams_playing[i].all_players[j].previous_total_wickets+=teams_playing[i].all_players[j].present_match_wicket;
                 }
@@ -1112,15 +1114,15 @@ int main()
     } 
     else
     {
-          printf("Taking Player ID's and Roles from File.\n");
-          for(i=0;i<n;++i)
+        printf("Taking Player ID's and Roles from File.\n");
+        for(i=0;i<n;++i)
         {
             for(j=0;j<15;++j)
             {
-                    fscanf(fp1,"%s",teams_playing[i].all_players[j].player_role); 
+                fscanf(fp1,"%s",teams_playing[i].all_players[j].player_role); 
             }
         }
-
+        
         for(i=0;i<n;++i)
         {
             for(j=0;j<15;++j)
@@ -1131,6 +1133,7 @@ int main()
             }
         }
     }
+        fclose(fp1);
         fclose(fp);
         fp = fopen("teamIDs.txt","r");
         if(fp==NULL)
