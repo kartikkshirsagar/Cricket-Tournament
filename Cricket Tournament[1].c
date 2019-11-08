@@ -1102,31 +1102,51 @@ int main()
     int total_matches=((n/2)*(n/2-1)) +3;
     struct match_played match[total_matches];
     int maxManOM;
-    FILE* fp;
-    fp=fopen("IDandRole.txt","r");
-    if(fp==NULL)
+    FILE* fp,*fp1;
+    fp=fopen("ID.txt","r");
+    fp1 = fopen("role.txt","r");
+    if(fp==NULL || fp1==NULL)
     {
-        printf("No file to read data from.");
+        printf("No file to read data from.1");
 
     } 
     else
     {
-        
-        //printf("Enter player IDs and their respective roles:\n");
+          printf("Taking Player ID's and Roles from File.\n");
+          for(i=0;i<n;++i)
+        {
+            for(j=0;j<15;++j)
+            {
+                    fscanf(fp1,"%s",teams_playing[i].all_players[j].player_role); 
+            }
+        }
+
         for(i=0;i<n;++i)
         {
             for(j=0;j<15;++j)
             {
-                fscanf(fp,"%d %s",&teams_playing[i].all_players[j].player_id,teams_playing[i].all_players[j].player_role);
+                fscanf(fp,"%d",&teams_playing[i].all_players[j].player_id);
                 teams_playing[i].all_players[j].previous_total_score=0;
                 teams_playing[i].all_players[j].previous_total_wickets=0;
             }
         }
-        printf("Please Enter team IDs(team IDs should be like 0,1,2,...,n-1) \n");
-        for (i = 0; i < n; i++)
+    }
+        fclose(fp);
+        fp = fopen("teamIDs.txt","r");
+        if(fp==NULL)
         {
-            scanf("%d",&teams_playing[i].team_id);
+             printf("No file to read data from.");
         }
+        else
+        {
+            //printf("Please Enter team IDs(team IDs should be like 0,1,2,...,n-1) \n");
+            for (i = 0; i < n; i++)
+            {
+                 fscanf(fp,"%d",&teams_playing[i].team_id);
+            }
+        }
+        fclose(fp);
+        
         
         printf("What do you want to do?\n");
         
@@ -1192,7 +1212,7 @@ int main()
         playing_eleven(teams_playing[g]);
         break;
         
-    }
+    
     
     }
 return 0;
