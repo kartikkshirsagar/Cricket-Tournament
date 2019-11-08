@@ -678,15 +678,16 @@ void beginTournament(struct team* teams_playing,int *pointsTable[2],int sz,int g
                 }
             }
             
-            printf("Enter the player name and present match scores(enter 0 if he's not playing in this match) of all players(30 players) ");
+            printf("Enter the player name and present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
             for(k=0;k<2;i++)
             {
                 for(p=0;p<15;j++)
                 {
                     printf("Player name?");
                     scanf("%s",teams_playing[i].all_players[j].player_name);
-                    scanf("%d ", &teams_playing[i].all_players[j].present_match_score);
+                    scanf("%d %d", &teams_playing[i].all_players[j].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
                     teams_playing[i].all_players[j].previous_total_score+=teams_playing[i].all_players[j].present_match_score;
+                    teams_playing[i].all_players[j].previous_total_wickets+=teams_playing[i].all_players[j].present_match_wicket;
                 }
             }
             printf("\nWhat is the highest run scored?");
