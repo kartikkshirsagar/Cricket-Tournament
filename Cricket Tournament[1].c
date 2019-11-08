@@ -68,9 +68,10 @@ void swap(int* a, int* b)
 	*b = t; 
 } 
 
-int fact(int n)
+long int fact(int n)
 {
-    int i,f=1;
+    int i;
+    long int f=1;
     for(i=1;i<=n;i++)
     {
         f=f*i;
@@ -693,7 +694,7 @@ void beginTournament(struct team* teams_playing,int *pointsTable[2],int sz,int g
             printf("\nWho is the man of the match?(enter player id)");
             scanf("%d",&match[t-1].man_of_the_match);
             
-            printf("\nWickets taken by pacer? ");
+            printf("\nWickets taken by pacers? ");
             scanf("%d",&match[t-1].wicket_taken_by_pacers);
             match[t-1].winning_team=ans;
         }
