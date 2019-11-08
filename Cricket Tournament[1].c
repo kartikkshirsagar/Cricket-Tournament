@@ -738,15 +738,16 @@ void beginTournament(struct team* teams_playing,int *pointsTable[2],int sz,int g
                     }
                 }
             }
-            printf("Enter the player name and present match scores(enter 0 if he's not playing in this match) of all players(30 players) ");
+            printf("Enter the player name and present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
             for(k=0;k<2;i++)
             {
                 for(p=0;p<15;j++)
                 {
                     printf("Player name?");
                     scanf("%s",teams_playing[i].all_players[j].player_name);
-                    scanf("%d ", &teams_playing[i].all_players[j].present_match_score);
+                    scanf("%d %d", &teams_playing[i].all_players[j].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
                     teams_playing[i].all_players[j].previous_total_score+=teams_playing[i].all_players[j].present_match_score;
+                    teams_playing[i].all_players[j].previous_total_wickets+=teams_playing[i].all_players[j].present_match_wicket;
                 }
             }
             printf("What is the highest run scored?");
@@ -1107,6 +1108,7 @@ int main()
 		{
 			scanf("%d %s",&teams_playing[i].all_players[j].player_id,teams_playing[i].all_players[j].player_role);
              teams_playing[i].all_players[j].previous_total_score=0;
+             teams_playing[i].all_players[j].previous_total_wickets=0;
 		}
 	}
     printf("Please Enter team IDs(team IDs should be like 0,1,2,...,n-1) \n");
@@ -1163,15 +1165,6 @@ int main()
     break;
 
     case 6:
-    printf("Enter previous total wickets of all players\n");
-    for(i=0;i<n;i++)
-    {
-        for ( j = 0;j <15 ; j++)
-        {
-            scanf("%d",&teams_playing[i].all_players[j].previous_total_wickets);
-        }
-    }
-    
     int diffWickets=diff_of_spinner_pacer_wickets(match,n,teams_playing);
     printf("Difference between no. of wickets by pacers and spinners : %d",diffWickets);
     break;
