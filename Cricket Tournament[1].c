@@ -569,7 +569,7 @@ int highest_run(struct team t[],int n)
 }
 
 //Highest average(assuming that no two individuals have the same average
-f/*loat calculate_average(struct team a,int i){
+/*float calculate_average(struct team a,int i){
     float avg;
     int number_of_outs = (a.all_players[i].previous_total_score-a.all_players[i].present_match_score)/a.all_players[i].previous_avg;
     //a.all_players[i].previous_total_score += a.all_players[i].present_match_score;
@@ -599,6 +599,7 @@ struct player highest_average(struct team* all_teams,int n)
         for (j = 0; j < 15 ; j++)
         {
             fscanf(fp2,"%f",avg[k]);
+            all_teams[i].all_players[j].previous_avg=avg[k];
             k++;
         }
         
