@@ -120,95 +120,7 @@ void quickSort(int arr[], int low, int high)
         quickSort(arr, pi + 1, high); 
     } 
 } 
-int partitionBat (struct player arr[], int low, int high) 
-{ 
-    struct player pivot = arr[high];  
-        int i = low;
-        int j = high;
 
-    while(j>i)
-    {    
-        while(arr[i].previous_avg>pivot.previous_avg)
-        {
-            i++;
-        }
-        while(arr[j].previous_avg<=pivot.previous_avg)
-        {
-            j--;
-        }
-        if(arr[i].previous_avg<=pivot.previous_avg && arr[j].previous_avg>pivot.previous_avg )
-        {
-            struct player t = arr[j]; 
-            arr[j] = arr[i]; 
-            arr[i] = t;
-            i++;
-            j--;
-
-        }
-        
-         
-    }
-    return (j);
-} 
-
-
-int partitionBowl (struct player arr[], int low, int high) 
-{ 
-    struct player pivot = arr[high];  
-        int i = low;
-        int j = high-1;
-
-    while(j>i)
-    {    
-        while(arr[i].previous_total_wickets>pivot.previous_total_wickets)
-        {
-            i++;
-        }
-        while(arr[j].previous_total_wickets<=pivot.previous_total_wickets)
-        {
-            j--;
-        }
-        if(arr[i].previous_total_wickets<=pivot.previous_total_wickets && arr[j].previous_total_wickets>pivot.previous_total_wickets)
-        {
-            struct player t = arr[j]; 
-            arr[j] = arr[i]; 
-            arr[i] = t;
-            j--;
-            i++;
-
-        } 
-    }
-    return (j);
-} 
-void quickSortStructureBat(struct player arr[], int low, int high) 
-{ 
-    if (low < high) 
-    {    
-        int pi = partitionBat(arr, low, high); 
-        struct player t = arr[pi];
-        arr[pi] = arr[low];
-        arr[low]=t;
-
-
-        quickSortStructureBat(arr, low, pi - 1); 
-        quickSortStructureBat(arr, pi + 1, high); 
-    } 
-} 
-
-
-
-void quickSortStructureBowl(struct player arr[], int low, int high) 
-{ 
-    if (low < high) 
-    {    
-        int pi = partitionBowl(arr, low, high); 
-        struct player t = arr[pi];
-        arr[pi] = arr[low];
-        arr[low]=t;   
-        quickSortStructureBowl(arr, low, pi - 1); 
-        quickSortStructureBowl(arr, pi + 1, high); 
-    } 
-} 
 void swapstructure(struct player* a, struct player* b) 
 { 
     struct player t = *a; 
@@ -535,11 +447,7 @@ int highest_run(struct team t[],int n)
 	int i,j,k=0,runs;
     struct player a[n*15],c[n*15];				//a[] to store required players
 	int max=t[0].all_players[0].previous_total_score;
-    for(i=0;i<n;++i)
-	{
-        for(j=0;j<15;++j)
-        printf("\n%ld",t[i].all_players[j].previous_total_score);
-    }
+    
 	
 	for(i=0;i<n;++i)
 	{
