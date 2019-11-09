@@ -562,12 +562,21 @@ int highest_run(struct team t[],int n)
 			}
 		}
 	}
+    if(k==1)
+    {
+        printf("\nName= %s  Runs= %ld\n",a[0].player_name,a[0].previous_total_score);
+    }
+    else
+    {
+        Mergesort(a,0,k,c);
+  
+        for(i=0;i<k;++i)
+        {
+            printf("\nName= %s  Runs= %ld\n",a[i].player_name,a[i].previous_total_score);
+        }
+    }
+    
 	
-	Mergesort(a,0,k,c);
-	for(i=0;i<k;++i)
-	{
-		printf("Name= %s  Runs= %ld\n",a[i].player_name,a[i].previous_total_score);
-	}
    return a[0].player_id; 	
 	
 }
