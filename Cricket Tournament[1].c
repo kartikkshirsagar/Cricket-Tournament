@@ -17,7 +17,7 @@ struct player
     int player_id;
     char player_name[40];
     int match_id;
-    int previous_total_score;
+    long previous_total_score;
     float previous_avg;
     int previous_total_wickets;
     float previous_wicket_avg;
@@ -562,7 +562,7 @@ int highest_run(struct team t[],int n)
 	Mergesort(a,0,k,c);
 	for(i=0;i<k;++i)
 	{
-		printf("Name= %s  Runs= %d\n",a[i].player_name,a[i].previous_total_score);
+		printf("Name= %s  Runs= %ld\n",a[i].player_name,a[i].previous_total_score);
 	}
    return a[0].player_id; 	
 	
@@ -627,7 +627,7 @@ struct player highest_average(struct team* all_teams,int n)
             k++;
         }
     }
-    fclose(fp1);
+    fclose(fp2);
     //RETURN THE PLAYER WHICH HAS MAX AVERAGE
     return player_highest_avg;
 
@@ -661,6 +661,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     
                 }
             }
+    
     printf("Matches will be played now in Group 1\n");
     for(i=0;i<groupsize-1;i++)
     {
@@ -700,8 +701,8 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                 for(p=0;p<15;p++)
                 {
                     //printf("Player name?");
-                    fscanf(fptr,"%s",teams_playing[i].all_players[p].player_name);
-                    fscanf(fp,"%d %d %f", &teams_playing[i].all_players[p].present_match_score,&teams_playing[i].all_players[p].present_match_wicket,&teams_playing[k].all_players[p].previous_avg);
+                    //fscanf(fptr,"%s",teams_playing[i].all_players[p].player_name);
+                    fscanf(fp,"%d %d", &teams_playing[i].all_players[p].present_match_score,&teams_playing[i].all_players[p].present_match_wicket);
                     teams_playing[i].all_players[p].previous_total_score+=teams_playing[i].all_players[p].present_match_score;
                     teams_playing[i].all_players[p].previous_total_wickets+=teams_playing[i].all_players[p].present_match_wicket;
                     
@@ -764,8 +765,8 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     //printf("Player name?");
                     //fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
                     fscanf(fp,"%d %d", &teams_playing[i].all_players[p].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
-                    teams_playing[i].all_players[p].previous_total_score+=teams_playing[k].all_players[p].present_match_score;
-                    teams_playing[k].all_players[p].previous_total_wickets+=teams_playing[k].all_players[p].present_match_wicket;
+                    teams_playing[i].all_players[p].previous_total_score+=teams_playing[i].all_players[p].present_match_score;
+                    teams_playing[i].all_players[p].previous_total_wickets+=teams_playing[i].all_players[p].present_match_wicket;
                 }
             }
             /*printf("What is the highest run scored?");
@@ -782,9 +783,23 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
     print4largest(pointsTable,0,groupsize,win,0);
     print4largest(pointsTable,groupsize,2*groupsize,win,2);
     printf("Now playing knockouts...");
+    
     for(i=0,j=0;i<2;++i,j+=2)
     {
         printf("Match is being played between %d and %d\n",win[j],win[j+1]);
+        for(k=0;k<2;k++)
+            {
+                for(p=0;p<15;p++)
+                {
+                    //printf("Player name?");
+                    //fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
+                    fscanf(fp,"%d %d", &teams_playing[win[j]].all_players[p].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
+                    teams_playing[j].all_players[p].previous_total_score+=teams_playing[j].all_players[p].present_match_score;
+                    teams_playing[j].all_players[p].previous_total_wickets+=teams_playing[j].all_players[p].present_match_wicket;
+                }
+                j++;
+            }
+            j=j-1;
         t++;
         printf("Enter");
             printf("Who will win? Enter the id\n");
@@ -808,6 +823,16 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
     }
     printf("Finals...");
     printf("Match is being played between %d and %d\n",match[t-1].winning_team,match[t-2].winning_team);
+    for(k=0;k<2;k++)
+            {
+                for(p=0;p<15;p++)
+                {
+                    //printf("Player name?");
+                    //fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
+                    fscanf(fp,"%d %d", &teams_playing[win[j]].all_players[p].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
+                    teams_playing[j].all_players[p].previous_total_score+=teams_playing[j].all_players[p].present_match_score;
+                    teams_playing[j].all_players[p].previous_total_wickets+=teams_playing[j].all_players[p].present_match_wicket;
+                }
     t++;
     printf("Enter");
             printf("Who will win? Enter the id\n");
@@ -1174,13 +1199,13 @@ int main()
         Init(teams_playing,pointsTable,n);
         beginTournament(teams_playing,pointsTable,n,groupsize,match);
         
-        break;
+     
 
 
         case 2:
         
         highestRunScorer = highest_run(teams_playing,n);
-        printf("Player with highest runs(Player ID): %d",highestRunScorer);
+        //printf("Player with highest runs(Player ID): %d",highestRunScorer);
         
         break;
 
@@ -1189,14 +1214,14 @@ int main()
         
         maxManOM = max_man_of_the_match(match,n,teams_playing);
         printf("Player ID of the Man of the Match(maximum times) : %d",maxManOM);
-        break;
+    
 
         case 4:
         check_mom_is_highest_run_scorer(match,n,teams_playing);
-        break;
+      
 
         case 5: 
-        printf("Enter previous total scores and previous averages of all players in all teams and if he's out/notout in the latest match(1 for notout 0 for out) \n");
+        /*printf("Enter previous total scores and previous averages of all players in all teams and if he's out/notout in the latest match(1 for notout 0 for out) \n");
         for(i=0;i<n;i++)
         {
             for(j=0;j<15;j++)
@@ -1204,7 +1229,7 @@ int main()
                 scanf("%d %f %d",&teams_playing[i].all_players[j].previous_total_score,&teams_playing[i].all_players[j].previous_avg,&teams_playing[i].all_players[j].playing);
                 
             }
-        }
+        }*/
                 
         player=highest_average(teams_playing,n);
         printf("Player with highest average(Player ID) : %d",player.player_id);
