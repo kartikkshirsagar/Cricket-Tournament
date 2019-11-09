@@ -666,13 +666,13 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     }
                 }
             }
-            printf("Enter the player name and present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
+            printf("Enter the present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
             for(k=0;k<2;k++)
             {
                 for(p=0;p<15;p++)
                 {
                     //printf("Player name?");
-                    fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
+                    //fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
                     fscanf(fp,"%d %d", &teams_playing[k].all_players[p].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
                     teams_playing[k].all_players[p].previous_total_score+=teams_playing[k].all_players[p].present_match_score;
                     teams_playing[k].all_players[p].previous_total_wickets+=teams_playing[k].all_players[p].present_match_wicket;
@@ -1086,7 +1086,7 @@ int main()
         case 1:
         Init(teams_playing,pointsTable,n);
         beginTournament(teams_playing,pointsTable,n,groupsize,match);
-        break;
+        printf("Now showing highest run scorer\n");
 
 
 
@@ -1094,19 +1094,18 @@ int main()
         
         highestRunScorer = highest_run(teams_playing,n);
         printf("Player with highest runs(Player ID): %d",highestRunScorer);
-        break;
-
+        printf("Now showing max no. of man of the match\n");
 
 
         case 3:
         
         maxManOM = max_man_of_the_match(match,n,teams_playing);
         printf("Player ID of the Man of the Match(maximum times) : %d",maxManOM);
-        break;
+       printf("Now Showing if highest man of the match getter is highest run scorer.\n");
 
         case 4:
         check_mom_is_highest_run_scorer(match,n,teams_playing);
-        break;
+        printf("Now showing Highest average\n");
 
         case 5: 
         printf("Enter previous total scores and previous averages of all players in all teams and if he's out/notout in the latest match(1 for notout 0 for out) \n");
@@ -1114,25 +1113,25 @@ int main()
         {
             for(j=0;j<15;j++)
             {
-                scanf("%d %f %d",&teams_playing[i].all_players[j].previous_total_score,&teams_playing[i].all_players[j].previous_avg,&teams_playing[i].all_players[j].playing);
+                scanf("%f %d",&teams_playing[i].all_players[j].previous_avg,&teams_playing[i].all_players[j].playing);
                 
             }
         }
                 
         player=highest_average(teams_playing,n);
-        printf("Player with highest average(Player ID) : %d",player.player_id);
+        printf("Player with highest average(Player ID) : %d\n",player.player_id);
         
-        break;
+        printf("Now showing difference between spinner and pacer wickets\n");
 
         case 6:
         
         diffWickets=diff_of_spinner_pacer_wickets(match,n,teams_playing);
         printf("Difference between no. of wickets by pacers and spinners : %d",diffWickets);
-        break;
+        printf("Now showing players who were man of the match atleast k times\n");
 
         case 7:
         man_of_the_match_ktimes(match,teams_playing,n);
-        break;
+        printf("Now showing possible combinations for a team\n");
 
         case 8:
         
