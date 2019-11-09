@@ -616,7 +616,7 @@ struct player highest_average(struct team* all_teams,int n)
         }
     }
     k=0;
-    for(i=0;i<8;i++)
+    for(i=0;i<n;i++)
     {
         for(j=0;j<15;++j)
         {
@@ -627,7 +627,7 @@ struct player highest_average(struct team* all_teams,int n)
             k++;
         }
     }
-    fclose(fp1);
+    fclose(fp2);
     //RETURN THE PLAYER WHICH HAS MAX AVERAGE
     return player_highest_avg;
 
@@ -694,14 +694,15 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                 }
             }
             
+
            // printf("Enter the player name and present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
             for(k=0;k<2;k++)
             {
                 for(p=0;p<15;p++)
                 {
                     //printf("Player name?");
-                    fscanf(fptr,"%s",teams_playing[i].all_players[p].player_name);
-                    fscanf(fp,"%d %d %f", &teams_playing[i].all_players[p].present_match_score,&teams_playing[i].all_players[p].present_match_wicket,&teams_playing[k].all_players[p].previous_avg);
+                    
+                    fscanf(fp,"%d %d %f", &teams_playing[k].all_players[p].present_match_score,&teams_playing[k].all_players[p].present_match_wicket,&teams_playing[k].all_players[p].previous_avg);
                     teams_playing[i].all_players[p].previous_total_score+=teams_playing[i].all_players[p].present_match_score;
                     teams_playing[i].all_players[p].previous_total_wickets+=teams_playing[i].all_players[p].present_match_wicket;
                     
@@ -1196,15 +1197,15 @@ int main()
         break;
 
         case 5: 
-        printf("Enter previous total scores and previous averages of all players in all teams and if he's out/notout in the latest match(1 for notout 0 for out) \n");
-        for(i=0;i<n;i++)
+        //printf("Enter previous total scores and previous averages of all players in all teams and if he's out/notout in the latest match(1 for notout 0 for out) \n");
+        /*for(i=0;i<n;i++)
         {
             for(j=0;j<15;j++)
             {
                 scanf("%d %f %d",&teams_playing[i].all_players[j].previous_total_score,&teams_playing[i].all_players[j].previous_avg,&teams_playing[i].all_players[j].playing);
                 
             }
-        }
+        }*/
                 
         player=highest_average(teams_playing,n);
         printf("Player with highest average(Player ID) : %d",player.player_id);
