@@ -630,7 +630,7 @@ struct player highest_average(struct team* all_teams,int n)
 
 }
 
-void Init (struct team* a,int *pointsTable[2],int sz1)
+void Init (struct team* a,int pointsTable[][2],int sz1)
 {
     for(int i=0;i<sz1;i++)
     {
@@ -640,12 +640,13 @@ void Init (struct team* a,int *pointsTable[2],int sz1)
 }
 
 
-void beginTournament(struct team* teams_playing,int *pointsTable[2],int sz,int groupsize,struct match_played* match)
+void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int groupsize,struct match_played* match)
 {   
-    void print4largest(int *pointsTable[2],int hi, int lo,int win[],int j);
+    void print4largest(int pointsTable[][2],int hi, int lo,int win[],int j);
     int i=0,j=0;int k,t=0,p,win[5];
     int ans;
-    FILE* fp;
+    FILE* fp,*fptr;
+    fptr= fopen("name.txt","r");
     fp = fopen("presentscoreandWickets.txt","r");
     printf("Matches will be played now in Group 1\n");
     for(i=0;i<groupsize-1;i++)
@@ -681,15 +682,15 @@ void beginTournament(struct team* teams_playing,int *pointsTable[2],int sz,int g
             }
             
             printf("Enter the player name and present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
-            for(k=0;k<2;i++)
+            for(k=0;k<2;k++)
             {
-                for(p=0;p<15;j++)
+                for(p=0;p<15;p++)
                 {
-                    printf("Player name?");
-                    scanf("%s",teams_playing[i].all_players[j].player_name);
-                    fscanf(fp,"%d %d", &teams_playing[i].all_players[j].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
-                    teams_playing[i].all_players[j].previous_total_score+=teams_playing[i].all_players[j].present_match_score;
-                    teams_playing[i].all_players[j].previous_total_wickets+=teams_playing[i].all_players[j].present_match_wicket;
+                    //printf("Player name?");
+                    fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
+                    fscanf(fp,"%d %d", &teams_playing[k].all_players[p].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
+                    teams_playing[k].all_players[p].previous_total_score+=teams_playing[k].all_players[p].present_match_score;
+                    teams_playing[k].all_players[p].previous_total_wickets+=teams_playing[k].all_players[p].present_match_wicket;
                 }
             }
             printf("\nWhat is the highest run scored?");
@@ -742,15 +743,15 @@ void beginTournament(struct team* teams_playing,int *pointsTable[2],int sz,int g
                 }
             }
             printf("Enter the player name and present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
-            for(k=0;k<2;i++)
+            for(k=0;k<2;k++)
             {
-                for(p=0;p<15;j++)
+                for(p=0;p<15;p++)
                 {
-                    printf("Player name?");
-                    scanf("%s",teams_playing[i].all_players[j].player_name);
-                    scanf("%d %d", &teams_playing[i].all_players[j].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
-                    teams_playing[i].all_players[j].previous_total_score+=teams_playing[i].all_players[j].present_match_score;
-                    teams_playing[i].all_players[j].previous_total_wickets+=teams_playing[i].all_players[j].present_match_wicket;
+                    //printf("Player name?");
+                    fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
+                    fscanf(fp,"%d %d", &teams_playing[k].all_players[p].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
+                    teams_playing[k].all_players[p].previous_total_score+=teams_playing[k].all_players[p].present_match_score;
+                    teams_playing[k].all_players[p].previous_total_wickets+=teams_playing[k].all_players[p].present_match_wicket;
                 }
             }
             printf("What is the highest run scored?");
@@ -819,7 +820,8 @@ void beginTournament(struct team* teams_playing,int *pointsTable[2],int sz,int g
             scanf("%d",&match[t-1].wicket_taken_by_pacers);
             match[t-1].winning_team=ans;
     
-
+fclose(fp);
+fclose(fptr);
  //SOrt teams playing array from 0 to groupsize-1 and groupsize to n-1
  //then top 2 teams from each group would advance to the knock outs.  
 
@@ -827,7 +829,7 @@ void beginTournament(struct team* teams_playing,int *pointsTable[2],int sz,int g
 
 }
 
-void print4largest(int *pointsTable[2], int lo,int hi,int win[],int j) 
+void print4largest(int pointsTable[][2], int lo,int hi,int win[],int j) 
 { 
 	int i, first, second; 
 	first = second=-1;
