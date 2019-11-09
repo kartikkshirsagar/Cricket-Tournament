@@ -579,11 +579,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
             if(ans==-1)
             {
                 for(k=0;k<2*groupsize;k++)
-                {   scanf("%s",teams_playing[i].all_players[j].player_name);
-                    scanf("%d %d", &teams_playing[i].all_players[j].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
-                    teams_playing[i].all_players[j].previous_total_score+=teams_playing[i].all_players[j].present_match_score;
-                    teams_playing[i].all_players[j].previous_total_wickets+=teams_playing[i].all_players[j].present_match_wicket;
-                    
+                {    
                     if(pointsTable[k][0]==teams_playing[i].team_id||pointsTable[k][0]==teams_playing[j].team_id)
                     {
                         pointsTable[k][1]++;
