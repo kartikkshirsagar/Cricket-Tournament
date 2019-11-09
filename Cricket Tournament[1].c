@@ -829,7 +829,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                 {
                     //printf("Player name?");
                     //fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
-                    fscanf(fp,"%d %d", &teams_playing[win1.all_players[p].present_match_score,&teams_playing[win1].all_players[p].present_match_wicket);
+                    fscanf(fp,"%d %d", &teams_playing[win1].all_players[p].present_match_score,&teams_playing[win1].all_players[p].present_match_wicket);
                     teams_playing[win1].all_players[p].previous_total_score+=teams_playing[p].all_players[p].present_match_score;
                     teams_playing[win1].all_players[p].previous_total_wickets+=teams_playing[p].all_players[p].present_match_wicket;
                 }
