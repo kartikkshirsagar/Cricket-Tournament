@@ -836,6 +836,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     teams_playing[j].all_players[p].previous_total_score+=teams_playing[j].all_players[p].present_match_score;
                     teams_playing[j].all_players[p].previous_total_wickets+=teams_playing[j].all_players[p].present_match_wicket;
                 }
+            }
     t++;
     printf("Enter");
             printf("Who will win? Enter the id\n");
