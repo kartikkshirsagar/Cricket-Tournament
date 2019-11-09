@@ -408,7 +408,7 @@ void mergeself(struct player A[],int l,int m,int n,struct player C[])
 	int i=l,j=m+1,k=l;
 	while(i<=m && j<=n)
 	{
-		if(strcmp(A[i].player_name,A[j].player_name)<0)
+		if(strcmp(A[i].player_name,A[j].player_name)<=0)
 			C[k++]=A[i++];
 		else
 			C[k++]=A[j++];
@@ -470,88 +470,94 @@ int highest_run(struct team t[],int n)
 			}
 		}
 	}
-    printf("Player Name(s) and runs of player scoring highest runs:\n";
-    if(k==1)
-    {
-        printf("\nName= %s  Runs= %ld\n",a[0].player_name,a[0].previous_total_score);
-    }
-    else
-    {
-        Mergesort(a,0,k,c);
+    printf("Player Name(s) and runs of player scoring highest runs:");
+
+
+    Mergesort(a,0,k-1,c);
   
         for(i=0;i<k;++i)
         {
             printf("\nName= %s  Runs= %ld\n",a[i].player_name,a[i].previous_total_score);
         }
-    }
+    
     
 	
    return a[0].player_id; 	
 	
 }
 
-//Highest average(assuming that no two individuals have the same average
-/*float calculate_average(struct team a,int i){
-    float avg;
-    int number_of_outs = (a.all_players[i].previous_total_score-a.all_players[i].present_match_score)/a.all_players[i].previous_avg;
-    //a.all_players[i].previous_total_score += a.all_players[i].present_match_score;
-    
-    if(a.all_players[i].playing==1)
-    {
-        a.all_players[i].previous_avg=a.all_players[i].previous_total_score/number_of_outs;
-    }
-    else
-    {
-        a.all_players[i].previous_avg=a.all_players[i].previous_total_score/(number_of_outs +1);
-    }
-    return a.all_players[i].previous_avg;
-}*/
-
 
 struct player highest_average(struct team* all_teams,int n)
 {  
-    struct player player_highest_avg;
-    int i,j,maxavg,pos;
+    
+    int i,j;
     int k =0;
-    float avg[120];
+    float maxavg,avg[120];int mode[120];
     FILE *fp2;
     fp2=fopen("players_average.txt","r");
     for (i = 0; i < n ; i++)
     {
         for (j = 0; j < 15 ; j++)
         {
-            fscanf(fp2,"%f",avg[k]);
+            fscanf(fp2,"%f",&avg[k]);
             all_teams[i].all_players[j].previous_avg=avg[k];
             k++;
         }
         
     }
 
-    maxavg=avg[0];
+    maxavg=avg[0];k=0;
     //INSERT MAX ELEMENT IN ARRAY ALGO HERE
-    for(i=0;i<120;++i)
+   
+    for(i=0;i<n;++i)
     {
-        if(avg[i]>maxavg)
+        for(j=0;j<15;++j)
         {
-            maxavg=avg[i];
- 
+            if(all_teams[i].all_players[j].previous_avg>=maxavg)
+            {
+                if(all_teams[i].all_players[j].previous_avg==maxavg)
+                {
+                    mode[k]=all_teams[i].all_players[j].player_id;
+                    k++;
+                }
+                else
+                {
+                    k=0;
+                    maxavg=all_teams[i].all_players[j].previous_avg;
+                    mode[k]=all_teams[i].all_players[j].player_id;
+                    k++;
+                }
+            }
         }
+        
     }
+     printf("\nMax average= %f",maxavg);  
+    struct player player_highest_avg[k],temp[k];
     k=0;
     for(i=0;i<8;i++)
     {
         for(j=0;j<15;++j)
         {
-            if(avg[k]==maxavg)
+            if(mode[k]==all_teams[i].all_players[j].player_id)
             {
-                player_highest_avg=all_teams[i].all_players[j];
+                player_highest_avg[k]=all_teams[i].all_players[j];
+                k++;
             }
-            k++;
+           
         }
+    }
+    
+    printf("\nPlayer(s) with highest average:\n");
+
+    Mergesort(player_highest_avg,0,k-1,temp);
+  
+    for(i=0;i<k;++i)
+    {
+        printf("Name= %s\n",player_highest_avg[i].player_name);
     }
     fclose(fp2);
     //RETURN THE PLAYER WHICH HAS MAX AVERAGE
-    return player_highest_avg;
+    return player_highest_avg[0];
 
 }
 
@@ -578,7 +584,6 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
             {
                 for(p=0;p<15;p++)
                 {
-                    //printf("Player name?");
                     fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
                     
                 }
@@ -617,24 +622,17 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                 }
             }
             
-           // printf("Enter the player name and present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
-            for(k=0;k<2;k++)
+           for(k=0;k<2;k++)
             {
                 for(p=0;p<15;p++)
                 {
-                    //printf("Player name?");
-                    //fscanf(fptr,"%s",teams_playing[i].all_players[p].player_name);
                     fscanf(fp,"%d %d", &teams_playing[i].all_players[p].present_match_score,&teams_playing[i].all_players[p].present_match_wicket);
                     teams_playing[i].all_players[p].previous_total_score+=teams_playing[i].all_players[p].present_match_score;
                     teams_playing[i].all_players[p].previous_total_wickets+=teams_playing[i].all_players[p].present_match_wicket;
                     
                 }
             }
-            /*printf("\nWhat is the highest run scored?");
-            scanf("%d",&match[t-1].highest_runs);*/
-            //printf("\nWho is the man of the match?(enter player id)");
-            
-            //printf("\nWickets taken by pacers? ");
+
             fscanf(fp1,"%d %d",&match[t-1].wicket_taken_by_pacers,&match[t-1].man_of_the_match);
             
             match[t-1].winning_team=ans;
@@ -679,22 +677,15 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     }
                 }
             }
-            //printf("Enter the player name and present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
             for(k=0;k<2;k++)
             {
                 for(p=0;p<15;p++)
                 {
-                    //printf("Player name?");
-                    //fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
                     fscanf(fp,"%d %d", &teams_playing[i].all_players[p].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
                     teams_playing[i].all_players[p].previous_total_score+=teams_playing[i].all_players[p].present_match_score;
                     teams_playing[i].all_players[p].previous_total_wickets+=teams_playing[i].all_players[p].present_match_wicket;
                 }
             }
-            /*printf("What is the highest run scored?");
-            scanf("%d",&match[t-1].highest_runs);*/
-            //printf("\nWho is the man of the match?(enter player id)");
-             //printf("\nWickets taken by pacer? ");
             fscanf(fp1,"%d %d",&match[t-1].wicket_taken_by_pacers,&match[t-1].man_of_the_match);
         }
         
@@ -713,8 +704,6 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
             {
                 for(p=0;p<15;p++)
                 {
-                    //printf("Player name?");
-                    //fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
                     fscanf(fp,"%d %d", &teams_playing[win[j]].all_players[p].present_match_score,&teams_playing[i].all_players[j].present_match_wicket);
                     teams_playing[j].all_players[p].previous_total_score+=teams_playing[j].all_players[p].present_match_score;
                     teams_playing[j].all_players[p].previous_total_wickets+=teams_playing[j].all_players[p].present_match_wicket;
@@ -735,11 +724,6 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     }
                 }
             
-           /* printf("What is the highest run scored?");
-            scanf("%d",&match[t-1].highest_runs);*/
-            //printf("\nWho is the man of the match?(enter player id)");
-            //scanf("%d",&match[t-1].man_of_the_match);
-            //printf("\nWickets taken by pacer? ");
             fscanf(fp1,"%d %d",&match[t-1].wicket_taken_by_pacers,&match[t-1].man_of_the_match);
             match[t-1].winning_team=ans;
     }
@@ -753,8 +737,6 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
     
                 for(p=0;p<15;p++)
                 {
-                    //printf("Player name?");
-                    //fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
                     fscanf(fp,"%d %d", &teams_playing[win1].all_players[p].present_match_score,&teams_playing[win1].all_players[p].present_match_wicket);
                     teams_playing[win1].all_players[p].previous_total_score+=teams_playing[win1].all_players[p].present_match_score;
                     teams_playing[win1].all_players[p].previous_total_wickets+=teams_playing[win1].all_players[p].present_match_wicket;
@@ -762,8 +744,6 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
 
                 for(p=0;p<15;p++)
                 {
-                    //printf("Player name?");
-                    //fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
                     fscanf(fp,"%d %d", &teams_playing[win2].all_players[p].present_match_score,&teams_playing[win2].all_players[p].present_match_wicket);
                     teams_playing[win2].all_players[p].previous_total_score+=teams_playing[win2].all_players[p].present_match_score;
                     teams_playing[win2].all_players[p].previous_total_wickets+=teams_playing[win2].all_players[p].present_match_wicket;
@@ -778,12 +758,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     }
                 }
             
-            /*printf("What is the highest run scored?");
-            scanf("%d",&match[t-1].highest_runs);*/
-            //printf("\nWho is the man of the match?(enter player id)");
-            //scanf("%d",&match[t-1].man_of_the_match);
-            
-           // printf("\nWickets taken by pacer? ");
+ 
             fscanf(fp1,"%d %d",&match[t-1].wicket_taken_by_pacers,&match[t-1].man_of_the_match);
             match[t-1].winning_team=ans;
     
@@ -834,12 +809,22 @@ void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playi
     int man_match[total_matches][2],temp[total_matches];
     struct player p[total_matches],q[total_matches],r[total_matches];                            //man_match[][] stores man_of_the_match id and no. of times he's been declared man of the match
     man_match[0][0]=match[0].man_of_the_match;
-   
+    FILE *fp3;
+    fp3=fopen("century.txt","r");
+    for(i=0;i<n;++i)
+    {
+        for(j=0;j<15;++j)
+        {
+            fscanf(fp3,"%d",&teams_playing[i].all_players[j].century);
+        }
+        
+    }
+    
     for(i=0;i<total_matches;++i)
     {
         man_match[i][1]=1;
         man_match[i][0]=match[i].man_of_the_match;
-	temp[i]=match[i].man_of_the_match;
+	    temp[i]=match[i].man_of_the_match;
     }
     quickSort(temp,0,total_matches-1);
     for(i=0;i<total_matches;++i)
@@ -860,6 +845,7 @@ void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playi
             
            
     }
+   
     int count=0,req_motm=i;m=0;
     while(m<req_motm)
     {
@@ -872,6 +858,7 @@ void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playi
                     if(teams_playing[i].all_players[j].player_id==man_match[m][0])
                     {
                             p[count++]=teams_playing[i].all_players[j];
+                            
                     }
                     
                 }
@@ -879,12 +866,13 @@ void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playi
         }
 	    m++;
     }
-    Mergesort(p,0,count,q);
-	printf("Man of the match atleast k times");
+    Mergesort(p,0,count-1,q);
+	printf("\nMan of the match atleast k times");
     for(i=0;i<count;++i)
     {
         printf("\n Name = %s ",p[i].player_name);
     }
+   
     int max=p[0].century;k=0;
     for(i=0;i<count;++i)
     {
@@ -903,14 +891,14 @@ void man_of_the_match_ktimes(struct match_played* match,struct team* teams_playi
 				}
             }
     }
-    Mergesort(r,0,k,q);
-    printf("Max no of centuries= %d by these:",max);
+    Mergesort(r,0,k-1,q);
+    printf("\nMax no of centuries= %d by these:",max);
     for(i=0;i<k;++i)
     {
         printf("\n Name = %s ",r[i].player_name);
     }
 
-
+    fclose(fp3);
 }
 //Function for total wickets taken by pacers 
 // Concept is we add all the wickets taken by all the players and then subtract that amount by the wickets taken by pacers in each match
@@ -1033,7 +1021,7 @@ int max_man_of_the_match(struct match_played* match,int n,struct team* teams_pla
     k++;
     }
     Mergesortnames(player_names,0,total-1,C);
-    printf("Player ID(s) and name(s) of the Man of the Match(maximum times):\n";
+    printf("Player ID(s) and name(s) of the Man of the Match(maximum times):\n");
     for(i=0;i<total;++i)
     {
         printf(" %d  %s\n",mode[i],player_names[i]);
@@ -1048,17 +1036,14 @@ void check_mom_is_highest_run_scorer(struct match_played* match,int n,struct tea
     maxmom = max_man_of_the_match(match,n,t);
     if(highest==maxmom)
     {
-        printf("The highest run scorer is also the player who has won max number of man of the match awards");
+        printf("\nThe highest run scorer is also the player who has won max number of man of the match awards\n");
 
     }
     else{
-        printf("The highest run scorer and the max man of the match awardee are different");
+        printf("\nThe highest run scorer and the max man of the match awardee are different\n");
     }
 
 }
-
-
-
 
 
 int main()
@@ -1140,46 +1125,31 @@ int main()
         highestRunScorer = highest_run(teams_playing,n);
         //printf("Player with highest runs(Player ID): %d",highestRunScorer);
         
-
-        case 3:
-        
         maxManOM = max_man_of_the_match(match,n,teams_playing);
-        
-    
-        break;
-        case 4:
         check_mom_is_highest_run_scorer(match,n,teams_playing);
+       
       
-
         case 5: 
-        /*printf("Enter previous total scores and previous averages of all players in all teams and if he's out/notout in the latest match(1 for notout 0 for out) \n");
-        for(i=0;i<n;i++)
-        {
-            for(j=0;j<15;j++)
-            {
-                scanf("%d %f %d",&teams_playing[i].all_players[j].previous_total_score,&teams_playing[i].all_players[j].previous_avg,&teams_playing[i].all_players[j].playing);
-                
-            }
-        }*/
-                
+             
         player=highest_average(teams_playing,n);
-        printf("Player with highest average(Player ID) : %d",player.player_id);
-        
+    
+     
         
 
         case 6:
         
         diffWickets=diff_of_spinner_pacer_wickets(match,n,teams_playing);
         printf("Difference between no. of wickets by pacers and spinners : %d",diffWickets);
-        
+         printf("\nBreak");
+      
 
         case 7:
         man_of_the_match_ktimes(match,teams_playing,n);
         
-
+        
         case 8:
         
-        printf("Enter the team id whose all possible combinations of playing eleven you want to have a look at(0-n) :\n");
+        printf("\nEnter the team id whose all possible combinations of playing eleven you want to have a look at(0-n) :\n");
         scanf("%d",&g);
         playing_eleven(teams_playing[g]);
         break;
