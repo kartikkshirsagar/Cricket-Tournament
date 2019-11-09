@@ -541,7 +541,7 @@ int highest_run(struct team t[],int n)
 	{
 		for(j=0;j<15;++j)
 		{
-			runs=t[i].all_players[i].previous_total_score;
+			runs=t[i].all_players[j].previous_total_score;
 			if(runs>=max)
 			{
 				if(runs==max)
@@ -549,7 +549,8 @@ int highest_run(struct team t[],int n)
 					a[k]=t[i].all_players[j];
 					k++;
 				}
-				else {
+				else
+                {
 					k=0;
 					max=runs;
 					a[k]=t[i].all_players[j];
@@ -802,9 +803,9 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                 }
                 j++;
             }
-            j=j-1;
+            j=j-2;
         t++;
-        printf("Enter");
+        //printf("Enter");
             printf("Who will win? Enter the id\n");
             scanf("%d",&ans);
             
