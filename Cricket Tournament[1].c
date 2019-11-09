@@ -595,14 +595,14 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     }
                 }
             }
-            for (i = 0; i < sz; i++)
+            for (k = 0; k < sz; k++)
             {
-                for(j=0;j<15;j++)
+                for(p=0;p<15;p++)
                 {
                     fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
                 }
             }
-            printf("Enter the present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
+           // printf("Enter the present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
             for(k=0;k<2;k++)
             {
                 for(p=0;p<15;p++)
@@ -639,7 +639,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
             match[t-1].match_id=t;
             match[t-1].teams_played[0]=teams_playing[i];
             match[t-1].teams_played[1]=teams_playing[j];
-            printf("Enter");
+            //printf("Enter");
             printf("Who will win? Enter the id and type -1 for tie\n");
             scanf("%d",&ans);
             if(ans==-1)
@@ -662,7 +662,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     }
                 }
             }
-            printf("Enter the present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
+            //printf("Enter the present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
             for(k=0;k<2;k++)
             {
                 for(p=0;p<15;p++)
