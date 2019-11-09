@@ -540,7 +540,7 @@ int highest_run(struct team t[],int n)
         for(j=0;j<15;++j)
         printf("\n%ld",t[i].all_players[j].previous_total_score);
     }
-	/*
+	
 	for(i=0;i<n;++i)
 	{
 		for(j=0;j<15;++j)
@@ -567,7 +567,7 @@ int highest_run(struct team t[],int n)
 	for(i=0;i<k;++i)
 	{
 		printf("Name= %s  Runs= %ld\n",a[i].player_name,a[i].previous_total_score);
-	}*/
+	}
    return a[0].player_id; 	
 	
 }
@@ -838,15 +838,15 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     //printf("Player name?");
                     //fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
                     fscanf(fp,"%d %d", &teams_playing[win1].all_players[p].present_match_score,&teams_playing[win1].all_players[p].present_match_wicket);
-                    teams_playing[win1].all_players[p].previous_total_score+=teams_playing[p].all_players[p].present_match_score;
-                    teams_playing[win1].all_players[p].previous_total_wickets+=teams_playing[p].all_players[p].present_match_wicket;
+                    teams_playing[win1].all_players[p].previous_total_score+=teams_playing[win1].all_players[p].present_match_score;
+                    teams_playing[win1].all_players[p].previous_total_wickets+=teams_playing[win1].all_players[p].present_match_wicket;
                 }
 
                 for(p=0;p<15;p++)
                 {
                     //printf("Player name?");
                     //fscanf(fptr,"%s",teams_playing[k].all_players[p].player_name);
-                    fscanf(fp,"%d %d", &teams_playing[win2].all_players[p].present_match_score,&teams_playing[win2].all_players[j].present_match_wicket);
+                    fscanf(fp,"%d %d", &teams_playing[win2].all_players[p].present_match_score,&teams_playing[win2].all_players[p].present_match_wicket);
                     teams_playing[win2].all_players[p].previous_total_score+=teams_playing[win2].all_players[p].present_match_score;
                     teams_playing[win2].all_players[p].previous_total_wickets+=teams_playing[win2].all_players[p].present_match_wicket;
                 }
