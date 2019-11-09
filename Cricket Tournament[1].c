@@ -589,7 +589,8 @@ int highest_run(struct team t[],int n)
 struct player highest_average(struct team* all_teams,int n)
 {  
     struct player player_highest_avg;
-    int i,j,maxavg,pos;
+    int i,j,pos;
+    float maxavg;
     int k =0;
     float avg[120];
     FILE *fp2;
@@ -598,7 +599,7 @@ struct player highest_average(struct team* all_teams,int n)
     {
         for (j = 0; j < 15 ; j++)
         {
-            fscanf(fp2,"%f",avg[k]);
+            fscanf(fp2,"%f",&avg[k]);
             all_teams[i].all_players[j].previous_avg=avg[k];
             k++;
         }
@@ -615,6 +616,7 @@ struct player highest_average(struct team* all_teams,int n)
  
         }
     }
+    printf("Max Average is %d",maxavg);
     k=0;
     for(i=0;i<n;i++)
     {
@@ -734,7 +736,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
             match[t-1].match_id=t;
             match[t-1].teams_played[0]=teams_playing[i];
             match[t-1].teams_played[1]=teams_playing[j];
-            printf("Enter");
+            //printf("Enter");
             printf("Who will win? Enter the id and type -1 for tie\n");
             scanf("%d",&ans);
             if(ans==-1)
@@ -1175,7 +1177,6 @@ int main()
         Init(teams_playing,pointsTable,n);
         beginTournament(teams_playing,pointsTable,n,groupsize,match);
         
-        break;
 
 
         case 2:
@@ -1189,7 +1190,7 @@ int main()
         case 3:
         
         maxManOM = max_man_of_the_match(match,n,teams_playing);
-        printf("Player ID of the Man of the Match(maximum times) : %d",maxManOM);
+        printf("Player ID of the Man of the Match(maximum times) : %d\n",maxManOM);
         break;
 
         case 4:
