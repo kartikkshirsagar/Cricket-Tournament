@@ -535,7 +535,11 @@ int highest_run(struct team t[],int n)
 	int i,j,k=0,runs;
     struct player a[n*15],c[n*15];				//a[] to store required players
 	int max=t[0].all_players[0].previous_total_score;
-	printf("%ld",t[0].all_players[0].previous_total_score);
+    for(i=0;i<n;++i)
+	{
+        for(j=0;j<15;++j)
+        printf("\n%ld",t[i].all_players[j].previous_total_score);
+    }
 	/*
 	for(i=0;i<n;++i)
 	{
@@ -549,8 +553,7 @@ int highest_run(struct team t[],int n)
 					a[k]=t[i].all_players[j];
 					k++;
 				}
-				else
-                {
+				else {
 					k=0;
 					max=runs;
 					a[k]=t[i].all_players[j];
@@ -590,8 +593,7 @@ int highest_run(struct team t[],int n)
 struct player highest_average(struct team* all_teams,int n)
 {  
     struct player player_highest_avg;
-    int i,j,pos;
-    float maxavg;
+    int i,j,maxavg,pos;
     int k =0;
     float avg[120];
     FILE *fp2;
@@ -600,7 +602,7 @@ struct player highest_average(struct team* all_teams,int n)
     {
         for (j = 0; j < 15 ; j++)
         {
-            fscanf(fp2,"%f",&avg[k]);
+            fscanf(fp2,"%f",avg[k]);
             all_teams[i].all_players[j].previous_avg=avg[k];
             k++;
         }
@@ -617,9 +619,8 @@ struct player highest_average(struct team* all_teams,int n)
  
         }
     }
-    printf("Max Average is %d",maxavg);
     k=0;
-    for(i=0;i<n;i++)
+    for(i=0;i<8;i++)
     {
         for(j=0;j<15;++j)
         {
@@ -698,7 +699,6 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                 }
             }
             
-
            // printf("Enter the player name and present match scores and wickets(enter 0 if he's not playing in this match) of all players(30 players) ");
             for(k=0;k<2;k++)
             {
@@ -738,7 +738,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
             match[t-1].match_id=t;
             match[t-1].teams_played[0]=teams_playing[i];
             match[t-1].teams_played[1]=teams_playing[j];
-            //printf("Enter");
+            printf("Enter");
             printf("Who will win? Enter the id and type -1 for tie\n");
             scanf("%d",&ans);
             if(ans==-1)
@@ -805,7 +805,7 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
             }
             j=j-2;
         t++;
-        //printf("Enter");
+        printf("Enter");
             printf("Who will win? Enter the id\n");
             scanf("%d",&ans);
             
@@ -828,6 +828,10 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
     printf("Finals...");
     printf("Match is being played between %d and %d\n",match[t-1].winning_team,match[t-2].winning_team);
     int win1=match[t-1].winning_team;int win2=match[t-2].winning_team;
+      printf("Enter");
+            printf("Who will win? Enter the id\n");
+            scanf("%d",&ans);
+            win[4]=ans;
     
                 for(p=0;p<15;p++)
                 {
@@ -846,12 +850,8 @@ void beginTournament(struct team* teams_playing,int pointsTable[][2],int sz,int 
                     teams_playing[win2].all_players[p].previous_total_score+=teams_playing[win2].all_players[p].present_match_score;
                     teams_playing[win2].all_players[p].previous_total_wickets+=teams_playing[win2].all_players[p].present_match_wicket;
                 }
-            }
     t++;
-    printf("Enter");
-            printf("Who will win? Enter the id\n");
-            scanf("%d",&ans);
-            win[4]=ans;
+  
             for(k=0;k<2*groupsize;k++)
                 {   
                     if(pointsTable[k][0]==ans)
@@ -1227,8 +1227,8 @@ int main()
         case 3:
         
         maxManOM = max_man_of_the_match(match,n,teams_playing);
-        printf("Player ID of the Man of the Match(maximum times) : %d\n",maxManOM);
-        break;
+        printf("Player ID of the Man of the Match(maximum times) : %d",maxManOM);
+    
 
         case 4:
         check_mom_is_highest_run_scorer(match,n,teams_playing);
