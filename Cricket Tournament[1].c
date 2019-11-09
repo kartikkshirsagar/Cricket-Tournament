@@ -592,11 +592,13 @@ struct player highest_average(struct team* all_teams,int n)
     int i,j,maxavg,pos;
     int k =0;
     float avg[120];
+    FILE *fp2;
+    fp2=fopen("players_average.txt","r");
     for (i = 0; i < n ; i++)
     {
         for (j = 0; j < 15 ; j++)
         {
-            avg[k] = calculate_average(all_teams[i],j);
+            fscanf(fp2,"%f",avg[k]);
             k++;
         }
         
