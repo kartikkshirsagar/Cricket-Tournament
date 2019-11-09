@@ -470,6 +470,7 @@ int highest_run(struct team t[],int n)
 			}
 		}
 	}
+    printf("Player Name(s) and runs of player scoring highest runs:\n";
     if(k==1)
     {
         printf("\nName= %s  Runs= %ld\n",a[0].player_name,a[0].previous_total_score);
@@ -1032,9 +1033,10 @@ int max_man_of_the_match(struct match_played* match,int n,struct team* teams_pla
     k++;
     }
     Mergesortnames(player_names,0,total-1,C);
+    printf("Player ID(s) and name(s) of the Man of the Match(maximum times):\n";
     for(i=0;i<total;++i)
     {
-        printf(" %s\n",player_names[i]);
+        printf(" %d  %s\n",mode[i],player_names[i]);
     }
     return mode[0];
 }
@@ -1138,15 +1140,13 @@ int main()
         highestRunScorer = highest_run(teams_playing,n);
         //printf("Player with highest runs(Player ID): %d",highestRunScorer);
         
-        break;
-
 
         case 3:
         
         maxManOM = max_man_of_the_match(match,n,teams_playing);
-        printf("Player ID of the Man of the Match(maximum times) : %d",maxManOM);
+        
     
-
+        break;
         case 4:
         check_mom_is_highest_run_scorer(match,n,teams_playing);
       
