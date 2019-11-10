@@ -259,11 +259,11 @@ void playing_eleven(struct team x)
     }
     int batsmenSize=i;
     struct team temp;
-    int no_of_batsmencombi=fact(batsmenSize)/(fact(3)*fact(batsmenSize-3));
+    long int no_of_batsmencombi=fact(batsmenSize)/(fact(3)*fact(batsmenSize-3));
     int batsmencombination[3][no_of_batsmencombi];
     
     l=0;
-    printf("Combinations among Batsmen are:\n");
+    //printf("Combinations among Batsmen are:\n");
     for(i=0;i<batsmenSize-2;i++)        //i is less than n-r+1 = size-3+1=size-2
     {
         for(j= i+1;j < batsmenSize-1;j++)
@@ -398,7 +398,7 @@ void playing_eleven(struct team x)
         {
             printf("%2d ", final_eleven[j][i]); 
         }
-        printf("\n");
+        printf("\n\n");
     
     }
 }
