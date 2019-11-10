@@ -231,17 +231,36 @@ void playing_eleven(struct team x)
     }*/
     for ( i = 0; i < 15; i++)
     {
-        if(x.all_players[i].player_id==selected[0]||x.all_players[i].player_id==selected[1]||x.all_players[i].player_id==selected[2]||x.all_players[i].player_id==selected[3])
+        if(x.all_players[i].player_id==selected[0])
         {
             j=i;
-            while(j<14)
-            {
-                x.all_players[j]=x.all_players[j+1];
-                j++;
-            }
+            deletePlayer(x.all_players,15,j);
         }
     }
-    
+    for ( i = 0; i < 15; i++)
+    {
+        if(x.all_players[i].player_id==selected[1])
+        {
+            j=i;
+            deletePlayer(x.all_players,15,j);
+        }
+    }
+    for ( i = 0; i < 15; i++)
+    {
+        if(x.all_players[i].player_id==selected[2])
+        {
+            j=i;
+            deletePlayer(x.all_players,15,j);
+        }
+    }
+    for ( i = 0; i < 15; i++)
+    {
+        if(x.all_players[i].player_id==selected[3])
+        {
+            j=i;
+            deletePlayer(x.all_players,15,j);
+        }
+    }
     j=0;int k=0,l=0;
     for ( i = 0; i < 11; i++)
     {
