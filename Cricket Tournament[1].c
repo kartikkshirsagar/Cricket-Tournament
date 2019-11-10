@@ -333,10 +333,13 @@ void playing_eleven(struct team x)
         i++;
     }
 
-
-
-  int final_eleven[7][900];  // 6C2 would be 15, so we know the size
-  
+/*int **final_eleven = (int **)malloc(8 * sizeof(int *)); 
+    for (i=0; i<7; i++) 
+         {
+             final_eleven[i] = (int *)malloc(900 * sizeof(int));
+         }*/ 
+  // 6C2 would be 15, so we know the size
+  int final_eleven[7][900];
   
  int z;
  for  (z = 0; z < 15; z++) 
@@ -407,6 +410,11 @@ void playing_eleven(struct team x)
         fprintf(result,"\n\n");
     
     }
+/*for (i=0; i<7; i++) 
+         {
+            free(final_eleven);
+         } 
+free(*final_eleven);*/
 }
 fclose(result);
 //Highest individual run 
