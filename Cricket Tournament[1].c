@@ -182,6 +182,10 @@ void bubbleSortbowl(struct player* arr, int n)
    } 
 } 
 
+void bubbleSortavg(struct player* arr,int n)
+{
+
+}
 void deletePlayer(struct player* a,int sz,int i)
 {
     while(i<sz-1)
@@ -331,11 +335,11 @@ void playing_eleven(struct team x)
 
 
 
-  int final_eleven[7][size1*15];  // 6C2 would be 15, so we know the size
+  int final_eleven[7][900];  // 6C2 would be 15, so we know the size
   
   
  int z;
- for  (z = 0; z < 17; z++) 
+ for  (z = 0; z < 15; z++) 
    {
         temp=x;
         i=0;j=0;
@@ -385,23 +389,26 @@ void playing_eleven(struct team x)
         }
         
     }
-	
+	FILE* result;
+    result=fopen("result.txt","w");
+
     printf("These players are the top two batsmen and bowlers so they will be always there in the playing eleven,their player IDs are:\n");
     printf(" %d\n",selected[0]);
-    printf(" %d\n",selected[2]);
     printf(" %d\n",selected[1]);
+    printf(" %d\n",selected[2]);
     printf(" %d\n",selected[3]);
 	
     for ( j = 0; j < 7; j++)
     {
-        for ( i = 0; i < 266; i++)
+        for ( i = 0; i < 200; i++)
         {
-            printf("%2d ", final_eleven[j][i]); 
+            fprintf(result,"%2d ", final_eleven[j][i]); 
         }
-        printf("\n\n");
+        fprintf(result,"\n\n");
     
     }
 }
+fclose(result);
 //Highest individual run 
 void mergeself(struct player A[],int l,int m,int n,struct player C[])
 {
