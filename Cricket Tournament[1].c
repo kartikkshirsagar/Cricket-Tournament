@@ -366,7 +366,7 @@ void playing_eleven(struct team x)
 
 
            // 6C2 would be 15, so we know the size
- int final_eleven[7][900];
+ int final_eleven[7][size1*15];
   
  int z;
  for  (z = 0; z < 60; z++) 
