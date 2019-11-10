@@ -39,7 +39,7 @@ struct team
    struct player all_players[15];//array of structure
    int team_id;
 
-}t1,t2,t3,t4,t5,t6,t7,t8;
+};
 
 
 
@@ -206,6 +206,11 @@ void playing_eleven(struct team x)
     struct player allRounders[10];
     //struct team final_eleven;
     int i=0,j=0;
+    /*int **final_eleven = (int **)malloc(7 * sizeof(int *)); 
+    for (i=0; i<7; i++) 
+         {
+             final_eleven[i] = (int *)malloc(900 * sizeof(int));
+         }*/
 
     bubbleSortbat(sorted_team_batting.all_players,15);
     bubbleSortbowl(sorted_team_bowling.all_players,15);
@@ -306,6 +311,13 @@ void playing_eleven(struct team x)
     }
     int size1=no_of_batsmencombi*no_of_bowlerscombi;
     int batsmenandbowlerscombination[5][size1];
+
+    /*int **batsmenandbowlerscombination = (int **)malloc(5 * sizeof(int *)); 
+    for (i=0; i<5; i++) 
+         {
+             batsmenandbowlerscombination[i] = (int *)malloc(size1 * sizeof(int));
+         }*/
+
     for(i=0;i<5;i++)
     {
         for ( j = 0; j < size1; j++)
@@ -333,16 +345,12 @@ void playing_eleven(struct team x)
         i++;
     }
 
-/*int **final_eleven = (int **)malloc(8 * sizeof(int *)); 
-    for (i=0; i<7; i++) 
-         {
-             final_eleven[i] = (int *)malloc(900 * sizeof(int));
-         }*/ 
-  // 6C2 would be 15, so we know the size
-  int final_eleven[7][900];
+
+           // 6C2 would be 15, so we know the size
+ int final_eleven[7][900];
   
  int z;
- for  (z = 0; z < 15; z++) 
+ for  (z = 0; z < 60; z++) 
    {
         temp=x;
         i=0;j=0;
@@ -384,14 +392,20 @@ void playing_eleven(struct team x)
                 //fprintf("abc.txt","%d\n",batsmenandbowlerscombination[j][z]);
                 j++;
             }
-            final_eleven[j+1][i + z*15]=final_combination[0][i];
-            final_eleven[j+2][i + z*15]=final_combination[1][i];
+            final_eleven[j][i + z*15]=final_combination[0][i];
+            final_eleven[j+1][i + z*15]=final_combination[1][i];
             //fprintf("abc.txt","%d\n",final_combination[0][i]);
             //fprintf("abc.txt","%d\n\n\n",final_combination[1][i]);
             i++;
         }
         
     }
+
+   /* for (i=0; i<5; i++) 
+         {
+            free(batsmenandbowlerscombination);
+         } 
+free(*batsmenandbowlerscombination);*/
 	FILE* result;
     result=fopen("result.txt","w");
 
@@ -403,7 +417,7 @@ void playing_eleven(struct team x)
 	
     for ( j = 0; j < 7; j++)
     {
-        for ( i = 0; i < 200; i++)
+        for ( i = 0; i < 900; i++)
         {
             fprintf(result,"%2d ", final_eleven[j][i]); 
         }
